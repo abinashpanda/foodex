@@ -27,7 +27,7 @@ const Apollo: React.FC<Props> = ({ children }) => {
       return forward(operation)
     })
 
-    const httpLink = new HttpLink({ uri: 'http://localhost:1337/graphql' })
+    const httpLink = new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_URL })
 
     const apolloClient = new ApolloClient({
       cache: new InMemoryCache(),

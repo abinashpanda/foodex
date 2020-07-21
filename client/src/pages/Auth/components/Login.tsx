@@ -1,16 +1,27 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { FormItem, FormLabel, Input, FormError, Button, Checkbox } from 'ui-kit'
+import AuthContext from 'contexts/AuthContext'
 
 const Login = () => {
   const { handleSubmit, register, errors } = useForm({
     defaultValues: { rememberMe: true, email: '', password: '' },
   })
 
-  const onSubmit = useCallback((data) => {
-    console.log(data)
-  }, [])
+  const { signInWithEmail } = useContext(AuthContext)
+
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = useCallback(
+    async ({ email, password, rememberMe }) => {
+      setLoading(true)
+      if (!(await signInWithEmail({ email, password, rememberMe }))) {
+        setLoading(false)
+      }
+    },
+    [signInWithEmail],
+  )
 
   return (
     <>
@@ -74,7 +85,7 @@ const Login = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button className="w-full" type="submit">
+        <Button className="w-full" type="submit" loading={loading}>
           Login
         </Button>
       </form>

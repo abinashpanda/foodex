@@ -1,8 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import axios from 'axios'
 import { useToasts } from 'react-toast-notifications'
+import Axios from 'axios'
 import { User } from 'types/user'
 import AuthContext from 'contexts/AuthContext'
+
+const client = Axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+})
 
 interface Props {
   children: React.ReactElement
@@ -18,12 +22,11 @@ const Auth: React.FC<Props> = ({ children }) => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const savedJWT = localStorage.getItem('jwt-token')
+      const savedJWT = localStorage.getItem('jwt')
       if (savedJWT) {
         try {
-          const { data } = await axios.get<User>('/users/me', {
+          const { data } = await client.get<User>('/users/me', {
             headers: { Authorization: `Bearer ${savedJWT}` },
-            baseURL: 'https://localhost:1337',
           })
           setUser(data)
           setJWT(savedJWT)
@@ -41,9 +44,87 @@ const Auth: React.FC<Props> = ({ children }) => {
     fetchUserInfo()
   }, [addToast])
 
-  const signOut = useCallback(() => {}, [])
+  const signOut = useCallback(async () => {
+    window.localStorage.removeItem('jwt')
+    setJWT(undefined)
+    setUser(undefined)
+    return true
+  }, [])
 
-  const signInWithEmail = useCallback(() => {}, [])
+  const signInWithEmail = useCallback(
+    async ({
+      email,
+      password,
+      rememberMe,
+    }: {
+      email: string
+      password: string
+      rememberMe?: boolean
+    }) => {
+      try {
+        const {
+          data: { jwt, user },
+        } = await client.post<{ jwt: string; user: User }>('/auth/local', {
+          email,
+          password,
+        })
+        addToast(
+          user.type === 'RESTAURANT_OWNER'
+            ? 'Logged in successfully'
+            : 'Good food waiting for you.',
+          {
+            appearance: 'success',
+          },
+        )
+        if (rememberMe) {
+          window.localStorage.setItem('jwt', jwt)
+        }
+        setJWT(jwt)
+        setUser(user)
+        return true
+      } catch (error) {
+        return false
+      }
+    },
+    [addToast],
+  )
+
+  const signUpWithEmail = useCallback(
+    async ({
+      username,
+      type,
+      email,
+      password,
+      rememberMe,
+    }: {
+      username: string
+      type: string
+      email: string
+      password: string
+      rememberMe?: boolean
+    }) => {
+      try {
+        const {
+          data: { jwt, user },
+        } = await client.post<{ jwt: string; user: User }>(
+          '/auth/local/register',
+          { username, type, email, password },
+        )
+        addToast('Congratulations. You account is created successfully.', {
+          appearance: 'success',
+        })
+        if (rememberMe) {
+          window.localStorage.setItem('jwt', jwt)
+        }
+        setJWT(jwt)
+        setUser(user)
+        return true
+      } catch (error) {
+        return false
+      }
+    },
+    [addToast],
+  )
 
   if (!authVerified) {
     return (
@@ -55,7 +136,9 @@ const Auth: React.FC<Props> = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, jwt, signOut, signInWithEmail }}>
+    <AuthContext.Provider
+      value={{ user, jwt, signOut, signInWithEmail, signUpWithEmail }}
+    >
       {children}
     </AuthContext.Provider>
   )

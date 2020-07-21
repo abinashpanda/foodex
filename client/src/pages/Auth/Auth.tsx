@@ -1,11 +1,18 @@
-import React from 'react'
-import { Switch } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Switch, Redirect } from 'react-router-dom'
 import Route from 'components/Route'
+import AuthContext from 'contexts/AuthContext'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import ResetPassword from './components/ResetPassword'
 
 const Auth = () => {
+  const { user } = useContext(AuthContext)
+
+  if (user) {
+    return <Redirect to={{ pathname: '/' }} />
+  }
+
   return (
     <div className="relative flex flex-col w-full h-screen md:flex-row">
       <img

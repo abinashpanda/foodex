@@ -6,6 +6,7 @@ import Apollo from 'components/Apollo'
 import Route from 'components/Route'
 import AuthScene from 'pages/Auth'
 import Home from 'pages/Home'
+import OwnerDashboard from 'pages/OwnerDashboard'
 
 const App = () => {
   return (
@@ -18,6 +19,12 @@ const App = () => {
               component={AuthScene}
             />
             <Route path="/" exact protectedRoute component={Home} />
+            <Route
+              path="/owner-dashboard"
+              exact
+              protectedRoute
+              component={OwnerDashboard}
+            />
           </Switch>
         </Apollo>
       </Auth>

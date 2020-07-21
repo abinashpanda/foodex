@@ -48,7 +48,15 @@
             ]
           ]
         }
-      ]
+      ],
+      "react/self-closing-comp": [
+        "error",
+        {
+          "component": true,
+          "html": true
+        }
+      ],
+      "react/no-unknown-property": "error"
     }
   },
   "browserslist": {

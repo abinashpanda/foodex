@@ -1,21 +1,41 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { FormItem, FormError, FormLabel, Button, Input } from 'ui-kit'
+import { FormItem, FormError, FormLabel, Button, Input, Checkbox } from 'ui-kit'
 import Radio from 'ui-kit/Radio'
+import AuthContext from 'contexts/AuthContext'
 
 const Signup = () => {
   const { handleSubmit, register, errors } = useForm({
     defaultValues: {
-      name: '',
+      username: '',
       email: '',
       password: '',
-      userType: 'CUSTOMER',
+      type: 'CUSTOMER',
+      rememberMe: true,
     },
   })
 
-  const onSubmit = useCallback((data) => {
-    console.log(data)
-  }, [])
+  const { signUpWithEmail } = useContext(AuthContext)
+
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = useCallback(
+    async ({ username, email, password, type, rememberMe }) => {
+      setLoading(true)
+      if (
+        !(await signUpWithEmail({
+          username,
+          email,
+          password,
+          type,
+          rememberMe,
+        }))
+      ) {
+        setLoading(false)
+      }
+    },
+    [signUpWithEmail],
+  )
 
   return (
     <>
@@ -33,14 +53,16 @@ const Signup = () => {
         <FormItem>
           <FormLabel htmlFor="email">Name</FormLabel>
           <Input
-            name="name"
+            name="username"
             placeholder="Name"
             id="name"
             ref={register({
               required: { value: true, message: 'Name is required' },
             })}
           />
-          {errors?.name ? <FormError>{errors.name.message}</FormError> : null}
+          {errors?.username ? (
+            <FormError>{errors.username.message}</FormError>
+          ) : null}
         </FormItem>
         <FormItem>
           <FormLabel htmlFor="email">Email</FormLabel>
@@ -81,7 +103,7 @@ const Signup = () => {
           <div className="flex items-center space-x-4">
             <FormLabel className="flex items-center space-x-2">
               <Radio
-                name="userType"
+                name="type"
                 value="RESTAURANT_OWNER"
                 ref={register({
                   required: { value: true, message: 'User type is required' },
@@ -91,7 +113,7 @@ const Signup = () => {
             </FormLabel>
             <FormLabel className="flex items-center space-x-2">
               <Radio
-                name="userType"
+                name="type"
                 value="CUSTOMER"
                 ref={register({
                   required: { value: true, message: 'User type is required' },
@@ -100,11 +122,15 @@ const Signup = () => {
               <span>Customer</span>
             </FormLabel>
           </div>
-          {errors?.userType ? (
-            <FormError>{errors.userType.message}</FormError>
-          ) : null}
+          {errors?.type ? <FormError>{errors.type.message}</FormError> : null}
         </FormItem>
-        <Button className="w-full" type="submit">
+        <label className="flex items-center">
+          <Checkbox className="mr-2" ref={register()} name="rememberMe" />
+          <span className="text-sm font-medium text-center text-gray-500">
+            Remember Me
+          </span>
+        </label>
+        <Button className="w-full" type="submit" loading={loading}>
           Sign up
         </Button>
       </form>

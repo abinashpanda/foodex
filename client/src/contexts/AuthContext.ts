@@ -4,23 +4,25 @@ import { User } from 'types/user'
 const AuthContext = createContext<{
   jwt?: string
   user?: User
-  signOut: () => void
-  signInWithEmail: ({
-    name,
-    email,
-    password,
-    userType,
-  }: {
-    name: string
+  signOut: () => Promise<boolean>
+  signInWithEmail: (signIndata: {
     email: string
     password: string
-    userType: string
-  }) => void
+    rememberMe?: boolean
+  }) => Promise<boolean>
+  signUpWithEmail: (signUpData: {
+    username: string
+    email: string
+    password: string
+    type: string
+    rememberMe?: boolean
+  }) => Promise<boolean>
 }>({
   jwt: undefined,
   user: undefined,
-  signOut: () => {},
-  signInWithEmail: () => {},
+  signOut: async () => false,
+  signInWithEmail: async () => false,
+  signUpWithEmail: async () => false,
 })
 
 export default AuthContext
