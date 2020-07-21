@@ -37,7 +37,7 @@ const Input = forwardRef(
         />
         {type === 'password' ? (
           <button
-            className="text-gray-500 focus:outline-none"
+            className="text-gray-500 focus:outline-none focus:text-green-500"
             onClick={togglePasswordVisibility}
             type="button"
           >
