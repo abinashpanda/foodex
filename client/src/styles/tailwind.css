@@ -1,0 +1,15 @@
+@import url('https://rsms.me/inter/inter.css');
+
+@tailwind base;
+
+@tailwind components;
+
+body {
+  @apply font-sans antialiased;
+}
+
+.form-item:focus-within > .form-label {
+  @apply text-green-500;
+}
+
+@tailwind utilities;
