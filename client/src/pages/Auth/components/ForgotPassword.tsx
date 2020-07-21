@@ -1,13 +1,25 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, FormItem, FormLabel, Input, FormError } from 'ui-kit'
+import AuthContext from 'contexts/AuthContext'
 
-const ResetPassword = () => {
-  const { handleSubmit, register, errors } = useForm()
+const ForgotPassword = () => {
+  const { handleSubmit, register, errors } = useForm({
+    defaultValues: { email: '' },
+  })
 
-  const onSubmit = useCallback((data) => {
-    console.log(data)
-  }, [])
+  const { forgotPassword } = useContext(AuthContext)
+
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = useCallback(
+    async ({ email }: { email: string }) => {
+      setLoading(true)
+      await forgotPassword(email)
+      setLoading(false)
+    },
+    [forgotPassword],
+  )
 
   return (
     <>
@@ -38,7 +50,7 @@ const ResetPassword = () => {
           />
           {errors?.email ? <FormError>{errors.email.message}</FormError> : null}
         </FormItem>
-        <Button className="w-full" type="submit">
+        <Button className="w-full" type="submit" loading={loading}>
           Reset Password
         </Button>
       </form>
@@ -46,4 +58,4 @@ const ResetPassword = () => {
   )
 }
 
-export default ResetPassword
+export default ForgotPassword

@@ -17,12 +17,14 @@ const AuthContext = createContext<{
     type: string
     rememberMe?: boolean
   }) => Promise<boolean>
+  forgotPassword: (email: string) => Promise<boolean>
 }>({
   jwt: undefined,
   user: undefined,
   signOut: async () => false,
   signInWithEmail: async () => false,
   signUpWithEmail: async () => false,
+  forgotPassword: async () => false,
 })
 
 export default AuthContext

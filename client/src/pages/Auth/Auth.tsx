@@ -4,7 +4,7 @@ import Route from 'components/Route'
 import AuthContext from 'contexts/AuthContext'
 import Login from './components/Login'
 import Signup from './components/Signup'
-import ResetPassword from './components/ResetPassword'
+import ForgotPassword from './components/ForgotPassword'
 
 const Auth = () => {
   const { user } = useContext(AuthContext)
@@ -24,7 +24,7 @@ const Auth = () => {
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-          <Route path="/reset-password" component={ResetPassword} />
+          <Route path="/reset-password" component={ForgotPassword} />
         </Switch>
       </div>
       <div className="flex-1 hidden sm:block">

@@ -83,6 +83,9 @@ const Auth: React.FC<Props> = ({ children }) => {
         setUser(user)
         return true
       } catch (error) {
+        const errorMessage =
+          error.response?.message || 'Something went wrong. Please try again'
+        addToast(errorMessage, { appearance: 'error' })
         return false
       }
     },
@@ -120,6 +123,28 @@ const Auth: React.FC<Props> = ({ children }) => {
         setUser(user)
         return true
       } catch (error) {
+        const errorMessage =
+          error.response?.message || 'Something went wrong. Please try again'
+        addToast(errorMessage, { appearance: 'error' })
+        return false
+      }
+    },
+    [addToast],
+  )
+
+  const forgotPassword = useCallback(
+    async (email: string) => {
+      try {
+        await client.post('/auth/forgot-password', { email })
+        addToast(
+          `Email with instructions to reset your password is sent to ${email}`,
+          { appearance: 'success' },
+        )
+        return true
+      } catch (error) {
+        const errorMessage =
+          error.response?.message || 'Something went wrong. Please try again'
+        addToast(errorMessage, { appearance: 'error' })
         return false
       }
     },
@@ -137,7 +162,14 @@ const Auth: React.FC<Props> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, jwt, signOut, signInWithEmail, signUpWithEmail }}
+      value={{
+        user,
+        jwt,
+        signOut,
+        signInWithEmail,
+        signUpWithEmail,
+        forgotPassword,
+      }}
     >
       {children}
     </AuthContext.Provider>
