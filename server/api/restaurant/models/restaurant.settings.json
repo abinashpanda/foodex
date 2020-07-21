@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "restaurants",
+  "info": {
+    "name": "Restaurant"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "string"
+    },
+    "cuisines": {
+      "type": "json"
+    },
+    "images": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "owner": {
+      "via": "restaurant",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "meals": {
+      "via": "restaurant",
+      "collection": "meal"
+    },
+    "orders": {
+      "via": "restaurant",
+      "collection": "order"
+    }
+  }
+}

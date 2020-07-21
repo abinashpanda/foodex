@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "name": "Order"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "customer": {
+      "via": "order",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "restaurant": {
+      "model": "restaurant",
+      "via": "orders"
+    },
+    "meals": {
+      "collection": "meal",
+      "via": "orders",
+      "dominant": true
+    },
+    "orderedAt": {
+      "type": "datetime"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "PLACED",
+        "CANCELLED",
+        "PROCESSING",
+        "IN_ROUTE",
+        "DELIVERED",
+        "RECEIVED"
+      ]
+    }
+  }
+}

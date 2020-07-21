@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "meals",
+  "info": {
+    "name": "Meal"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "restaurant": {
+      "model": "restaurant",
+      "via": "meals"
+    },
+    "orders": {
+      "via": "meals",
+      "collection": "order"
+    }
+  }
+}
