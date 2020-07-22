@@ -10,6 +10,7 @@
 export interface RestaurantInfo_images {
   __typename: "UploadFile";
   url: string;
+  id: string;
 }
 
 export interface RestaurantInfo {

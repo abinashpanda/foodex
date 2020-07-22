@@ -10,6 +10,7 @@
 export interface RestaurantForOwner_restaurants_images {
   __typename: "UploadFile";
   url: string;
+  id: string;
 }
 
 export interface RestaurantForOwner_restaurants {

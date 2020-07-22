@@ -11,7 +11,7 @@ const FormLabel: React.FC<Props> = ({ className, ...restProps }) => {
   return (
     <label
       className={clsx(
-        'form-label block text-sm font-medium text-gray-700',
+        'form-label block text-xs font-medium text-gray-500',
         className,
       )}
       {...restProps}

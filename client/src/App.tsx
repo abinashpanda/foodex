@@ -7,10 +7,11 @@ import Route from 'components/Route'
 import AuthScene from 'pages/Auth'
 import Home from 'pages/Home'
 import OwnerDashboard from 'pages/OwnerDashboard'
+import RestaurantOnboarding from 'pages/RestaurantOnboarding'
 
 const App = () => {
   return (
-    <ToastProvider>
+    <ToastProvider autoDismiss>
       <Auth>
         <Apollo>
           <Switch>
@@ -24,6 +25,12 @@ const App = () => {
               exact
               protectedRoute
               component={OwnerDashboard}
+            />
+            <Route
+              path="/restaurant-onboarding"
+              exact
+              protectedRoute
+              component={RestaurantOnboarding}
             />
           </Switch>
         </Apollo>
