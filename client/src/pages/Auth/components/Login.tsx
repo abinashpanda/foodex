@@ -1,19 +1,14 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
-import { FormItem, FormLabel, Input, FormError, Button, Checkbox } from 'ui-kit'
+import { Button, Input, Checkbox, Form } from 'antd'
 import AuthContext from 'contexts/AuthContext'
 
 const Login = () => {
-  const { handleSubmit, register, errors } = useForm({
-    defaultValues: { rememberMe: true, email: '', password: '' },
-  })
-
   const { signInWithEmail } = useContext(AuthContext)
 
   const [loading, setLoading] = useState(false)
 
-  const onSubmit = useCallback(
+  const handleSubmit = useCallback(
     async ({ email, password, rememberMe }) => {
       setLoading(true)
       if (!(await signInWithEmail({ email, password, rememberMe }))) {
@@ -31,53 +26,42 @@ const Login = () => {
           className="w-12 h-12"
           alt="Logo"
         />
-        <div className="relative z-10 mb-4 text-3xl font-bold text-gray-800">
+        <div className="relative z-10 text-3xl font-bold text-gray-800">
           Login to <span className="text-green-500">FoodEx</span>
         </div>
       </div>
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <FormItem>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
-            name="email"
-            placeholder="Email"
-            id="email"
-            ref={register({
-              required: { value: true, message: 'Email is required' },
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Email address is invalid',
-              },
-            })}
-          />
-          {errors?.email ? <FormError>{errors.email.message}</FormError> : null}
-        </FormItem>
-        <FormItem>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            placeholder="Password"
-            type="password"
-            id="password"
-            name="password"
-            ref={register({
-              required: { value: true, message: 'Password is required' },
-              minLength: {
-                value: 8,
-                message: 'Password should be atleast 8 characters long',
-              },
-            })}
-          />
-          {errors?.password ? (
-            <FormError>{errors.password.message}</FormError>
-          ) : null}
-        </FormItem>
-        <div className="flex items-center justify-between">
-          <label className="flex items-center">
-            <Checkbox className="mr-2" ref={register()} name="rememberMe" />
-            <span className="text-sm font-medium text-center text-gray-500">
-              Remember Me
-            </span>
-          </label>
+      <Form
+        layout="vertical"
+        colon={false}
+        onFinish={handleSubmit}
+        name="login"
+        initialValues={{ rememberMe: true }}
+      >
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: 'Email is required' },
+            {
+              type: 'email',
+              message: 'Email is invalid',
+              validateTrigger: 'onblur',
+            },
+          ]}
+        >
+          <Input placeholder="Email" />
+        </Form.Item>
+        <Form.Item
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: 'Email is required' }]}
+        >
+          <Input.Password placeholder="Password" />
+        </Form.Item>
+        <div className="flex items-center justify-between mb-4">
+          <Form.Item name="rememberMe" valuePropName="checked" className="mb-0">
+            <Checkbox>Remember Me</Checkbox>
+          </Form.Item>
           <Link
             to="/reset-password"
             className="text-sm font-medium text-center text-green-500"
@@ -85,18 +69,25 @@ const Login = () => {
             Forgot Password?
           </Link>
         </div>
-        <Button className="w-full" type="submit" loading={loading}>
+        <Button
+          className="w-full"
+          type="primary"
+          htmlType="submit"
+          loading={loading}
+        >
           Login
         </Button>
-      </form>
+      </Form>
       <div className="relative border-b border-gray-200">
         <div className="absolute px-2 text-sm text-center text-gray-400 whitespace-no-wrap transform -translate-x-1/2 -translate-y-1/2 bg-white left-1/2 top-1/2">
           or get started
         </div>
       </div>
-      <Button className="w-full" buttonType="secondary" href="/signup">
-        Sign up
-      </Button>
+      <Link to="/signup">
+        <Button className="w-full" type="default">
+          Sign up
+        </Button>
+      </Link>
     </>
   )
 }

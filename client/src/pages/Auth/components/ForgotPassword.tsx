@@ -1,19 +1,14 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Button, FormItem, FormLabel, Input, FormError } from 'ui-kit'
 import AuthContext from 'contexts/AuthContext'
+import { Form, Input, Button } from 'antd'
 
 const ForgotPassword = () => {
-  const { handleSubmit, register, errors } = useForm({
-    defaultValues: { email: '' },
-  })
-
   const { forgotPassword } = useContext(AuthContext)
 
   const [loading, setLoading] = useState(false)
 
-  const onSubmit = useCallback(
-    async ({ email }: { email: string }) => {
+  const handleSubmit = useCallback(
+    async ({ email }) => {
       setLoading(true)
       await forgotPassword(email)
       setLoading(false)
@@ -29,31 +24,34 @@ const ForgotPassword = () => {
           className="w-12 h-12"
           alt="Logo"
         />
-        <div className="relative z-10 mb-4 text-3xl font-bold text-gray-800">
+        <div className="relative z-10 text-3xl font-bold text-gray-800">
           Reset Password
         </div>
       </div>
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <FormItem>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
-            name="email"
-            placeholder="Email"
-            id="email"
-            ref={register({
-              required: { value: true, message: 'Email is required' },
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'Email address is invalid',
-              },
-            })}
-          />
-          {errors?.email ? <FormError>{errors.email.message}</FormError> : null}
-        </FormItem>
-        <Button className="w-full" type="submit" loading={loading}>
+      <Form onFinish={handleSubmit} layout="vertical" colon={false}>
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: 'Email is required' },
+            {
+              type: 'email',
+              message: 'Email is invalid',
+              validateTrigger: 'onblur',
+            },
+          ]}
+        >
+          <Input name="email" placeholder="Email" />
+        </Form.Item>
+        <Button
+          className="w-full"
+          htmlType="submit"
+          loading={loading}
+          type="primary"
+        >
           Reset Password
         </Button>
-      </form>
+      </Form>
     </>
   )
 }

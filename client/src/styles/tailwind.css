@@ -1,3 +1,4 @@
+
 @import url('https://rsms.me/inter/inter.css');
 
 @tailwind base;
@@ -10,6 +11,31 @@ body {
 
 .form-item:focus-within > .form-label {
   @apply text-green-500;
+}
+
+svg {
+  vertical-align: initial;
+}
+
+.ant-upload-list {
+  display: inline;
+}
+
+.ant-upload-list-item
+.ant-upload.ant-upload-select-picture-card {
+  width: 96px;
+  height: 96px;
+  padding: 0;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item-progress {
+  width: 100%;
+}
+
+  .ant-upload-list-picture-card
+  .ant-upload-list-item-uploading-text {
+  margin-top: 24px;
+  margin-left: 8px;
 }
 
 @tailwind utilities;

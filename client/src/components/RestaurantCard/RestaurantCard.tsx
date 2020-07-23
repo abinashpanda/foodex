@@ -1,11 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import { RestaurantInfo, RestaurantInfo_images } from 'types/RestaurantInfo'
 import clsx from 'clsx'
-import LocationMarker from 'icons/LocationMarker'
-import Cuisine from 'icons/Cuisine'
-import ChevronLeft from 'icons/ChevronLeft'
-import ChevronRight from 'icons/ChevronRight'
 import { mod } from 'utils/number'
+import { ChevronLeft, ChevronRight, Cuisine, LocationMarker } from 'icons'
 
 interface Restaurant
   extends Omit<RestaurantInfo, 'id' | '__typename' | 'images'> {

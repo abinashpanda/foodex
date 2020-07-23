@@ -20,7 +20,7 @@ const Auth = () => {
         className="object-cover h-48 sm:hidden"
         alt=""
       />
-      <div className="flex flex-col justify-center flex-1 flex-shrink-0 w-full h-full p-8 -mt-4 space-y-8 bg-white rounded-tl-lg rounded-tr-lg sm:p-12 sm:w-120 sm:flex-none sm:rounded-tl-none sm:rounded-tr-none sm:mt-0">
+      <div className="flex flex-col justify-center flex-1 flex-shrink-0 w-full h-full p-8 -mt-4 space-y-6 bg-white rounded-tl-lg rounded-tr-lg sm:p-12 sm:w-120 sm:flex-none sm:rounded-tl-none sm:rounded-tr-none sm:mt-0">
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />

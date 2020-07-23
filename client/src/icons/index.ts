@@ -6,8 +6,11 @@ import LocationMarker from './LocationMarker'
 import Cuisine from './Cuisine'
 import ChevronLeft from './ChevronLeft'
 import ChevronRight from './ChevronRight'
+import ShoppingCart from './ShoppingCart'
+import Settings from './Settings'
+import Building from './Building'
 
-export default {
+export {
   Eye,
   EyeOff,
   Close,
@@ -16,4 +19,7 @@ export default {
   Cuisine,
   ChevronLeft,
   ChevronRight,
+  ShoppingCart,
+  Settings,
+  Building,
 }

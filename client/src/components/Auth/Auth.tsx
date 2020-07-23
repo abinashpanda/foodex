@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useToasts } from 'react-toast-notifications'
 import Axios from 'axios'
 import { User } from 'types/user'
 import AuthContext from 'contexts/AuthContext'
+import { message } from 'antd'
+import { getErrorMessage } from 'utils/error'
 
 const client = Axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -18,8 +19,6 @@ const Auth: React.FC<Props> = ({ children }) => {
   const [jwt, setJWT] = useState<string | undefined>(undefined)
   const [user, setUser] = useState<User | undefined>(undefined)
 
-  const { addToast } = useToasts()
-
   useEffect(() => {
     const fetchUserInfo = async () => {
       const savedJWT = localStorage.getItem('jwt')
@@ -31,9 +30,7 @@ const Auth: React.FC<Props> = ({ children }) => {
           setUser(data)
           setJWT(savedJWT)
         } catch (error) {
-          const errorMessage =
-            error.response?.message || 'Something went wrong. Please try again'
-          addToast(errorMessage, { appearance: 'error' })
+          message.error(getErrorMessage(error.response?.data?.message))
         } finally {
           setAuthVerified(true)
         }
@@ -42,7 +39,7 @@ const Auth: React.FC<Props> = ({ children }) => {
       }
     }
     fetchUserInfo()
-  }, [addToast])
+  }, [])
 
   const signOut = useCallback(async () => {
     window.localStorage.removeItem('jwt')
@@ -65,16 +62,13 @@ const Auth: React.FC<Props> = ({ children }) => {
         const {
           data: { jwt, user },
         } = await client.post<{ jwt: string; user: User }>('/auth/local', {
-          email,
+          identifier: email,
           password,
         })
-        addToast(
+        message.success(
           user.type === 'RESTAURANT_OWNER'
             ? 'Logged in successfully'
             : 'Good food waiting for you.',
-          {
-            appearance: 'success',
-          },
         )
         if (rememberMe) {
           window.localStorage.setItem('jwt', jwt)
@@ -83,13 +77,11 @@ const Auth: React.FC<Props> = ({ children }) => {
         setUser(user)
         return true
       } catch (error) {
-        const errorMessage =
-          error.response?.message || 'Something went wrong. Please try again'
-        addToast(errorMessage, { appearance: 'error' })
+        message.error(getErrorMessage(error.response?.data?.message))
         return false
       }
     },
-    [addToast],
+    [],
   )
 
   const signUpWithEmail = useCallback(
@@ -113,9 +105,7 @@ const Auth: React.FC<Props> = ({ children }) => {
           '/auth/local/register',
           { username, type, email, password },
         )
-        addToast('Congratulations. You account is created successfully.', {
-          appearance: 'success',
-        })
+        message.success('Congratulations. You account is created successfully.')
         if (rememberMe) {
           window.localStorage.setItem('jwt', jwt)
         }
@@ -123,33 +113,25 @@ const Auth: React.FC<Props> = ({ children }) => {
         setUser(user)
         return true
       } catch (error) {
-        const errorMessage =
-          error.response?.message || 'Something went wrong. Please try again'
-        addToast(errorMessage, { appearance: 'error' })
+        message.error(getErrorMessage(error.response?.data?.message))
         return false
       }
     },
-    [addToast],
+    [],
   )
 
-  const forgotPassword = useCallback(
-    async (email: string) => {
-      try {
-        await client.post('/auth/forgot-password', { email })
-        addToast(
-          `Email with instructions to reset your password is sent to ${email}`,
-          { appearance: 'success' },
-        )
-        return true
-      } catch (error) {
-        const errorMessage =
-          error.response?.message || 'Something went wrong. Please try again'
-        addToast(errorMessage, { appearance: 'error' })
-        return false
-      }
-    },
-    [addToast],
-  )
+  const forgotPassword = useCallback(async (email: string) => {
+    try {
+      await client.post('/auth/forgot-password', { email })
+      message.success(
+        `Email with instructions to reset your password is sent to ${email}`,
+      )
+      return true
+    } catch (error) {
+      message.error(getErrorMessage(error.response?.data?.message))
+      return false
+    }
+  }, [])
 
   if (!authVerified) {
     return (
