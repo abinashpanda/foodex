@@ -36,4 +36,5 @@ export interface CreateRestaurantVariables {
   location: string;
   cuisines?: any | null;
   images: (string | null)[];
+  ownerId: string;
 }

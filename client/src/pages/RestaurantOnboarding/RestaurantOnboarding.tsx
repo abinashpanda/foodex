@@ -29,6 +29,8 @@ interface RestaurantFormData {
 }
 
 const RestaurantOnboarding = () => {
+  const { user } = useContext(AuthContext)
+
   const { handleSubmit, control, errors, register, watch } = useForm<
     RestaurantFormData
   >()
@@ -42,8 +44,6 @@ const RestaurantOnboarding = () => {
   }
 
   const { addToast } = useToasts()
-
-  const { user } = useContext(AuthContext)
 
   const history = useHistory()
 
@@ -80,10 +80,11 @@ const RestaurantOnboarding = () => {
           location,
           images: images.map((image) => image.id),
           cuisines,
+          ownerId: user?._id ?? '',
         },
       })
     },
-    [createRestaurantMutation],
+    [createRestaurantMutation, user],
   )
 
   return (

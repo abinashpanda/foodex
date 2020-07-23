@@ -28,6 +28,7 @@ export const CREATE_RESTAURANT_MUTATION = gql`
     $location: String!
     $cuisines: JSON
     $images: [ID]!
+    $ownerId: ID!
   ) {
     createRestaurant(
       input: {
@@ -36,6 +37,7 @@ export const CREATE_RESTAURANT_MUTATION = gql`
           location: $location
           cuisines: $cuisines
           images: $images
+          owner: $ownerId
         }
       }
     ) {
