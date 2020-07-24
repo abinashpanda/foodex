@@ -84,6 +84,7 @@ const CreateMeal: React.FC<Props> = ({ trigger }) => {
     },
     onCompleted: () => {
       message.success('Meal added successfully')
+      handleModalClose()
     },
     onError: (error) => {
       message.error(error.message)

@@ -1,9 +1,29 @@
 import React from 'react'
 import { Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { useQuery } from '@apollo/client'
+import {
+  MealsForRestaurant,
+  MealsForRestaurantVariables,
+} from 'types/MealsForRestaurant'
+import { RestaurantInfo } from 'types/RestaurantInfo'
+import { MEALS_FOR_RESTAURANT_QUERY } from 'queries/meal'
 import CreateMeal from './CreateMeal'
 
-const Meals = () => {
+interface Props {
+  restaurant: RestaurantInfo
+}
+
+const Meals: React.FC<Props> = ({ restaurant }) => {
+  const {} = useQuery<MealsForRestaurant, MealsForRestaurantVariables>(
+    MEALS_FOR_RESTAURANT_QUERY,
+    {
+      variables: {
+        restaurantId: restaurant.id,
+      },
+    },
+  )
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -16,6 +36,8 @@ const Meals = () => {
           }
         />
       </div>
+      <div className="w-full h-4 skeleton" />
+      <div className="grid grid-cols-4 gap-4" />
     </div>
   )
 }

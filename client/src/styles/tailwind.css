@@ -32,10 +32,25 @@ svg {
   width: 100%;
 }
 
-  .ant-upload-list-picture-card
-  .ant-upload-list-item-uploading-text {
+.ant-upload-list-picture-card
+.ant-upload-list-item-uploading-text {
   margin-top: 24px;
   margin-left: 8px;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    @apply opacity-25;
+  }
+
+  100% {
+    @apply opacity-75;
+  }
+}
+
+.skeleton {
+  @apply bg-gray-200 rounded-md;
+  animation: skeleton-animation 500ms alternate linear infinite;
 }
 
 @tailwind utilities;

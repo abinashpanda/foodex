@@ -10,54 +10,90 @@ import { Redirect, Switch, Route } from 'react-router-dom'
 import AppShell from 'components/AppShell'
 import { User } from 'types/user'
 import { Cuisine, ShoppingCart, Building, Settings } from 'icons'
+import { Spin, Result } from 'antd'
 import DashboardLink from './components/DashboardLink'
 import Meals from './components/Meals'
 
 const OwnerDashboard = () => {
   const { _id: userId } = useContext(AuthContext).user as User
 
-  const { data } = useQuery<RestaurantForOwner, RestaurantForOwnerVariables>(
-    RESTAURANT_FOR_OWNER_QUERY,
-    { variables: { userId } },
-  )
+  const { data, loading, error } = useQuery<
+    RestaurantForOwner,
+    RestaurantForOwnerVariables
+  >(RESTAURANT_FOR_OWNER_QUERY, { variables: { userId } })
 
-  if (data) {
-    if (data.restaurants?.length === 0) {
-      return <Redirect to={{ pathname: '/restaurant-onboarding' }} />
-    }
+  if (loading) {
+    return (
+      <AppShell>
+        <div className="flex items-center justify-center w-full h-full">
+          <Spin tip="Loading Restaurant Details..." />
+        </div>
+      </AppShell>
+    )
   }
 
-  return (
-    <AppShell>
-      <div className="relative flex items-start max-w-screen-lg mx-auto">
-        <div className="sticky top-0 w-48 pt-4">
-          <div className="pr-6 space-y-4 border-r border-gray-200">
-            <DashboardLink to="/owner-dashboard" icon={Cuisine} label="Meals" />
-            <DashboardLink
-              to="/owner-dashboard/orders"
-              icon={ShoppingCart}
-              label="Orders"
-            />
-            <DashboardLink
-              to="/owner-dashboard/restaurant"
-              icon={Building}
-              label="Restaurant"
-            />
-            <DashboardLink
-              to="/owner-dashboard/settings"
-              icon={Settings}
-              label="Settings"
-            />
+  if (error) {
+    return (
+      <AppShell>
+        <div className="p-4">
+          <div className="max-w-xs mx-auto">
+            <Result subTitle={error.message} status="warning" />
           </div>
         </div>
-        <div className="flex-1 pt-4 pl-6">
-          <Switch>
-            <Route path="/owner-dashboard" component={Meals} exact />
-          </Switch>
+      </AppShell>
+    )
+  }
+
+  if (data) {
+    const userRestaurant =
+      data.restaurants && data.restaurants[0] ? data.restaurants[0] : undefined
+
+    if (!userRestaurant) {
+      return <Redirect to={{ pathname: '/restaurant-onboarding' }} />
+    }
+
+    return (
+      <AppShell>
+        <div className="relative flex items-start max-w-screen-lg mx-auto">
+          <div className="sticky top-0 w-48 pt-4">
+            <div className="pr-6 space-y-4 border-r border-gray-200">
+              <DashboardLink
+                to="/owner-dashboard"
+                icon={Cuisine}
+                label="Meals"
+              />
+              <DashboardLink
+                to="/owner-dashboard/orders"
+                icon={ShoppingCart}
+                label="Orders"
+              />
+              <DashboardLink
+                to="/owner-dashboard/restaurant"
+                icon={Building}
+                label="Restaurant"
+              />
+              <DashboardLink
+                to="/owner-dashboard/settings"
+                icon={Settings}
+                label="Settings"
+              />
+            </div>
+          </div>
+          <div className="flex-1 pt-4 pl-6">
+            <Switch>
+              <Route
+                path="/owner-dashboard"
+                render={() => <Meals restaurant={userRestaurant} />}
+                exact
+              />
+            </Switch>
+          </div>
         </div>
-      </div>
-    </AppShell>
-  )
+      </AppShell>
+    )
+  }
+
+  return null
 }
 
 export default OwnerDashboard
