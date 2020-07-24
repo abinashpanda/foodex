@@ -9,11 +9,11 @@ const Signup = () => {
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = useCallback(
-    async ({ username, email, password, type, rememberMe }) => {
+    async ({ name, email, password, type, rememberMe }) => {
       setLoading(true)
       if (
         !(await signUpWithEmail({
-          username,
+          name,
           email,
           password,
           type,
@@ -49,7 +49,7 @@ const Signup = () => {
           name="name"
           rules={[{ required: true, message: 'Name is required' }]}
         >
-          <Input name="username" placeholder="Name" id="name" />
+          <Input name="name" placeholder="Name" id="name" />
         </Form.Item>
         <Form.Item
           label="Email"

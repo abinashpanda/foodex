@@ -86,13 +86,13 @@ const Auth: React.FC<Props> = ({ children }) => {
 
   const signUpWithEmail = useCallback(
     async ({
-      username,
+      name,
       type,
       email,
       password,
       rememberMe,
     }: {
-      username: string
+      name: string
       type: string
       email: string
       password: string
@@ -103,7 +103,7 @@ const Auth: React.FC<Props> = ({ children }) => {
           data: { jwt, user },
         } = await client.post<{ jwt: string; user: User }>(
           '/auth/local/register',
-          { username, type, email, password },
+          { username: email, name, type, email, password },
         )
         message.success('Congratulations. You account is created successfully.')
         if (rememberMe) {

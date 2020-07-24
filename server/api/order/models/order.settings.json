@@ -10,9 +10,9 @@
   },
   "attributes": {
     "customer": {
+      "via": "order",
       "plugin": "users-permissions",
-      "model": "user",
-      "via": "order"
+      "model": "user"
     },
     "restaurant": {
       "model": "restaurant",

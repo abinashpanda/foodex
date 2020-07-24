@@ -11,7 +11,7 @@ const AuthContext = createContext<{
     rememberMe?: boolean
   }) => Promise<boolean>
   signUpWithEmail: (signUpData: {
-    username: string
+    name: string
     email: string
     password: string
     type: string
