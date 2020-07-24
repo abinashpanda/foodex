@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_items",
+  "info": {
+    "name": "OrderItem"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "quantity": {
+      "type": "integer"
+    },
+    "meal": {
+      "model": "meal",
+      "via": "orderItems"
+    },
+    "order": {
+      "via": "orderItems",
+      "model": "order"
+    }
+  }
+}

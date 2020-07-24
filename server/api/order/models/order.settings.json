@@ -10,18 +10,13 @@
   },
   "attributes": {
     "customer": {
-      "via": "order",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "order"
     },
     "restaurant": {
       "model": "restaurant",
       "via": "orders"
-    },
-    "meals": {
-      "collection": "meal",
-      "via": "orders",
-      "dominant": true
     },
     "orderedAt": {
       "type": "datetime"
@@ -39,6 +34,10 @@
         "DELIVERED",
         "RECEIVED"
       ]
+    },
+    "orderItems": {
+      "collection": "order-item",
+      "via": "order"
     }
   }
 }
