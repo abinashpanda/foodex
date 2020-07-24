@@ -98,7 +98,7 @@ const RestaurantOnboarding = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Restaurant location is requiredj',
+                    message: 'Restaurant location is required',
                   },
                 ]}
               >

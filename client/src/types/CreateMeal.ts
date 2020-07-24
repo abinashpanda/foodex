@@ -39,7 +39,7 @@ export interface CreateMeal {
 
 export interface CreateMealVariables {
   name: string;
-  description: string;
+  description?: string | null;
   price: number;
   image?: string | null;
   restaurantId: string;

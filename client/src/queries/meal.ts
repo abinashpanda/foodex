@@ -28,7 +28,7 @@ export const MEALS_FOR_RESTAURANT_QUERY = gql`
 export const CREATE_MEAL_MUTATION = gql`
   mutation CreateMeal(
     $name: String!
-    $description: String!
+    $description: String
     $price: Float!
     $image: ID
     $restaurantId: ID!
