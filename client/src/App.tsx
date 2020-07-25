@@ -10,6 +10,7 @@ import RestaurantOnboarding from 'pages/RestaurantOnboarding'
 import Restaurants from 'pages/Restaurants'
 import RestaurantDetail from 'pages/RestaurantDetail'
 import Cart from 'components/Cart'
+import Checkout from 'pages/Checkout'
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
               protectedRoute
               component={RestaurantDetail}
             />
+            <Route path="/checkout" protectedRoute component={Checkout} />
           </Switch>
         </Cart>
       </Apollo>
