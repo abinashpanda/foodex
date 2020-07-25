@@ -52,19 +52,19 @@ const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
           {meal.description}
         </Typography.Paragraph>
         <div className="flex-1 mb-2" />
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between h-8">
           <span className="text-sm font-medium text-gray-400">
             ₹{meal.price}
           </span>
           {mealsQuantity[meal.id] ? (
             <div className="flex items-center space-x-2">
-              <Button onClick={handleAddMeal} className="h-8 leading-none">
+              <Button onClick={handleAddMeal} size="small" shape="circle">
                 +
               </Button>
               <span className="text-sm font-medium text-gray-800">
                 {mealsQuantity[meal.id]}
               </span>
-              <Button onClick={handleRemoveMeal} className="h-8 leading-none">
+              <Button onClick={handleRemoveMeal} size="small" shape="circle">
                 -
               </Button>
             </div>

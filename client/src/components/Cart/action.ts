@@ -5,6 +5,7 @@ export enum ActionType {
   ADD_NEW_RESTAURANT_MEAL = 'ADD_NEW_RESTAURANT_MEAL',
   ADD_MEAL = 'ADD_MEAL',
   REMOVE_MEAL = 'REMOVE_MEAL',
+  RESET_CART = 'RESET_CART',
 }
 
 export interface AddNewRestaurantMealAction {
@@ -29,7 +30,12 @@ export interface RemoveMealAction {
   }
 }
 
+export interface ResetCartAction {
+  type: ActionType.RESET_CART
+}
+
 export type Action =
   | AddNewRestaurantMealAction
   | AddMealAction
   | RemoveMealAction
+  | ResetCartAction

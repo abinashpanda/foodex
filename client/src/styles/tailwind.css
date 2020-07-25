@@ -38,6 +38,10 @@ svg {
   margin-left: 8px;
 }
 
+.address-radio-group .ant-radio-wrapper {
+  @apply flex items-center whitespace-normal;
+}
+
 @keyframes skeleton-animation {
   0% {
     @apply opacity-25;

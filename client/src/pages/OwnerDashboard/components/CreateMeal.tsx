@@ -121,6 +121,7 @@ const CreateMeal: React.FC<Props> = ({ trigger }) => {
         onOk={() => {
           form.submit()
         }}
+        okText="Create Meal"
       >
         <Form
           className="space-y-6"

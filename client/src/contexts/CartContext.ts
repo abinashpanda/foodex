@@ -8,11 +8,13 @@ const CartContext = createContext<{
   mealsQuantity: { [id: string]: number }
   addMeal: (meal: MealInfo, restaurant: RestaurantInfo) => void
   removeMeal: (meal: MealInfo) => void
+  resetCart: () => void
 }>({
   mealsAdded: [],
   mealsQuantity: {},
   addMeal: () => {},
   removeMeal: () => {},
+  resetCart: () => {},
 })
 
 export default CartContext

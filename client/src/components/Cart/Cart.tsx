@@ -71,6 +71,10 @@ const Cart: React.FC = ({ children }) => {
     [dispatch],
   )
 
+  const resetCart = useCallback(() => {
+    dispatch({ type: ActionType.RESET_CART })
+  }, [dispatch])
+
   return (
     <CartContext.Provider
       value={{
@@ -79,6 +83,7 @@ const Cart: React.FC = ({ children }) => {
         mealsQuantity,
         addMeal,
         removeMeal,
+        resetCart,
       }}
     >
       {children}

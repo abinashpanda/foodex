@@ -66,6 +66,14 @@ export const reducer = (state: State, action: Action): State => {
       }
     }
 
+    case ActionType.RESET_CART: {
+      return {
+        restaurantSelected: undefined,
+        mealsAdded: [],
+        mealsQuantity: {},
+      }
+    }
+
     default: {
       return state
     }
