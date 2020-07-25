@@ -20,6 +20,7 @@ import {
   OrdersForCustomer,
   OrdersForCustomerVariables,
 } from 'types/OrdersForCustomer'
+import { LocationMarker } from 'icons'
 import AddDeliveryAddress from './AddDeliveryAddress'
 
 const ConfirmOrder = () => {
@@ -208,7 +209,10 @@ const ConfirmOrder = () => {
 
   return (
     <div className="p-4 rounded-md shadow">
-      <div className="mb-4 font-medium text-gray-800">Deliver To</div>
+      <div className="flex items-center mb-4 space-x-2 font-medium text-green-500">
+        <LocationMarker className="w-5 h-5" />
+        <div>Deliver To</div>
+      </div>
       {content}
     </div>
   )

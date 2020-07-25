@@ -62,6 +62,7 @@ export interface PlaceOrder_placeOrder_orderItems_meal {
 
 export interface PlaceOrder_placeOrder_orderItems {
   __typename: "OrderItem";
+  id: string;
   meal: PlaceOrder_placeOrder_orderItems_meal | null;
   quantity: number;
 }
@@ -69,13 +70,14 @@ export interface PlaceOrder_placeOrder_orderItems {
 export interface PlaceOrder_placeOrder_statuses {
   __typename: "OrderStatus";
   id: string;
-  createdAt: any;
   status: ENUM_ORDERSTATUS_STATUS;
+  createdAt: any;
 }
 
 export interface PlaceOrder_placeOrder {
   __typename: "Order";
   id: string;
+  price: number;
   customer: PlaceOrder_placeOrder_customer | null;
   restaurant: PlaceOrder_placeOrder_restaurant | null;
   deliveryAddress: PlaceOrder_placeOrder_deliveryAddress | null;

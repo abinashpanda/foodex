@@ -62,6 +62,7 @@ export interface OrdersForCustomer_orders_orderItems_meal {
 
 export interface OrdersForCustomer_orders_orderItems {
   __typename: "OrderItem";
+  id: string;
   meal: OrdersForCustomer_orders_orderItems_meal | null;
   quantity: number;
 }
@@ -69,13 +70,14 @@ export interface OrdersForCustomer_orders_orderItems {
 export interface OrdersForCustomer_orders_statuses {
   __typename: "OrderStatus";
   id: string;
-  createdAt: any;
   status: ENUM_ORDERSTATUS_STATUS;
+  createdAt: any;
 }
 
 export interface OrdersForCustomer_orders {
   __typename: "Order";
   id: string;
+  price: number;
   customer: OrdersForCustomer_orders_customer | null;
   restaurant: OrdersForCustomer_orders_restaurant | null;
   deliveryAddress: OrdersForCustomer_orders_deliveryAddress | null;

@@ -6,6 +6,7 @@ export enum ActionType {
   ADD_MEAL = 'ADD_MEAL',
   REMOVE_MEAL = 'REMOVE_MEAL',
   RESET_CART = 'RESET_CART',
+  SET_CART = 'SET_CART',
 }
 
 export interface AddNewRestaurantMealAction {
@@ -34,8 +35,18 @@ export interface ResetCartAction {
   type: ActionType.RESET_CART
 }
 
+export interface SetCartAction {
+  type: ActionType.SET_CART
+  payload: {
+    restaurantSelected: RestaurantInfo
+    mealsAdded: MealInfo[]
+    mealsQuantity: { [id: string]: number }
+  }
+}
+
 export type Action =
   | AddNewRestaurantMealAction
   | AddMealAction
   | RemoveMealAction
   | ResetCartAction
+  | SetCartAction

@@ -10,6 +10,7 @@ import ShoppingCart from './ShoppingCart'
 import Settings from './Settings'
 import Building from './Building'
 import UserCircle from './UserCircle'
+import Clock from './Clock'
 
 export {
   Eye,
@@ -24,4 +25,5 @@ export {
   Settings,
   Building,
   UserCircle,
+  Clock,
 }

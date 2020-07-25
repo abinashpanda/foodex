@@ -74,6 +74,12 @@ export const reducer = (state: State, action: Action): State => {
       }
     }
 
+    case ActionType.SET_CART: {
+      return {
+        ...action.payload,
+      }
+    }
+
     default: {
       return state
     }

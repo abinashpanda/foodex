@@ -75,6 +75,40 @@ const Cart: React.FC = ({ children }) => {
     dispatch({ type: ActionType.RESET_CART })
   }, [dispatch])
 
+  const setCart = useCallback(
+    (
+      restaurant: RestaurantInfo,
+      mealsAdded: MealInfo[],
+      mealsQuantity: { [mealId: string]: number },
+    ) => {
+      const setCart = () => {
+        dispatch({
+          type: ActionType.SET_CART,
+          payload: {
+            restaurantSelected: restaurant,
+            mealsAdded,
+            mealsQuantity,
+          },
+        })
+      }
+
+      if (restaurantSelected && restaurantSelected.id !== restaurant.id) {
+        Modal.confirm({
+          title: 'Items already in cart',
+          content:
+            'Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant',
+          onOk: setCart,
+          cancelText: 'No',
+          okText: 'Yes, Start Afresh',
+          icon: null,
+        })
+      } else {
+        setCart()
+      }
+    },
+    [dispatch, restaurantSelected],
+  )
+
   return (
     <CartContext.Provider
       value={{
@@ -84,6 +118,7 @@ const Cart: React.FC = ({ children }) => {
         addMeal,
         removeMeal,
         resetCart,
+        setCart,
       }}
     >
       {children}
