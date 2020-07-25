@@ -23,7 +23,7 @@ export interface MealInfo {
   id: string;
   name: string | null;
   description: string | null;
-  price: number | null;
+  price: number;
   image: MealInfo_image | null;
   restaurant: MealInfo_restaurant | null;
 }

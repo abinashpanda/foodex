@@ -1,9 +1,11 @@
 import React, { useContext } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { Dropdown, Menu } from 'antd'
-import { UserCircle, ShoppingCart } from 'icons'
+import { UserCircle } from 'icons'
 import AuthContext from 'contexts/AuthContext'
 import { User } from 'types/user'
+import { Link } from 'react-router-dom'
+import CartBadge from './components/CartBadge'
 
 const AppShell: React.FC = ({ children }) => {
   const { user, signOut } = useContext(AuthContext)
@@ -14,15 +16,15 @@ const AppShell: React.FC = ({ children }) => {
     <div className="flex flex-col w-screen h-screen overflow-hidden">
       <div className="relative z-10 h-16 bg-white shadow">
         <div className="flex items-center h-full max-w-screen-lg mx-auto space-x-4">
-          <img
-            src={require('../../images/logo.png')}
-            alt="FoodEx"
-            className="w-10 h-10"
-          />
+          <Link to="/">
+            <img
+              src={require('../../images/logo.png')}
+              alt="FoodEx"
+              className="w-10 h-10"
+            />
+          </Link>
           <div className="flex-1" />
-          {userType === 'CUSTOMER' ? (
-            <ShoppingCart className="w-6 h-6" />
-          ) : null}
+          {userType === 'CUSTOMER' ? <CartBadge /> : null}
           <Dropdown
             trigger={['click']}
             overlay={

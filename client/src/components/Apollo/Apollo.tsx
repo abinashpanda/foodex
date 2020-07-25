@@ -26,7 +26,20 @@ const Apollo: React.FC = ({ children }) => {
     const httpLink = new HttpLink({ uri: process.env.REACT_APP_GRAPHQL_URL })
 
     const apolloClient = new ApolloClient({
-      cache: new InMemoryCache(),
+      cache: new InMemoryCache({
+        typePolicies: {
+          Query: {
+            fields: {
+              restaurant(_, { args, toReference }) {
+                return toReference({
+                  __typename: 'Restaurant',
+                  id: args?.id,
+                })
+              },
+            },
+          },
+        },
+      }),
       link: ApolloLink.from([authMiddleware, httpLink]),
     })
 

@@ -13,8 +13,8 @@
       "type": "integer"
     },
     "meal": {
-      "model": "meal",
-      "via": "orderItems"
+      "via": "orderItems",
+      "model": "meal"
     },
     "order": {
       "via": "orderItems",

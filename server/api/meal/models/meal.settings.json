@@ -27,15 +27,17 @@
       "required": false
     },
     "price": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true,
+      "default": 0
     },
     "restaurant": {
       "model": "restaurant",
       "via": "meals"
     },
     "orderItems": {
-      "via": "meal",
-      "collection": "order-item"
+      "collection": "order-item",
+      "via": "meal"
     }
   }
 }

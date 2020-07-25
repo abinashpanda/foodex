@@ -39,7 +39,7 @@ const RestaurantCard: React.FC<Props> = ({ restaurant, className, style }) => {
   return (
     <div
       className={clsx(
-        'w-full max-w-xs rounded-md overflow-hidden shadow bg-white group',
+        'w-full max-w-xs rounded-md overflow-hidden shadow bg-white group flex flex-col',
         className,
       )}
       style={style}
@@ -69,7 +69,7 @@ const RestaurantCard: React.FC<Props> = ({ restaurant, className, style }) => {
           </>
         ) : null}
       </div>
-      <div className="p-4 space-y-2">
+      <div className="flex-1 p-4 space-y-2">
         <div className="font-medium text-gray-800">{name}</div>
         {cuisines && cuisines.length > 0 ? (
           <div className="flex items-center space-x-2 text-xs text-gray-400">

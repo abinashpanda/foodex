@@ -23,7 +23,7 @@ export interface CreateMeal_createMeal_meal {
   id: string;
   name: string | null;
   description: string | null;
-  price: number | null;
+  price: number;
   image: CreateMeal_createMeal_meal_image | null;
   restaurant: CreateMeal_createMeal_meal_restaurant | null;
 }

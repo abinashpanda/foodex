@@ -3,6 +3,7 @@ import CartContext from 'contexts/CartContext'
 import { RestaurantInfo } from 'types/RestaurantInfo'
 import { MealInfo } from 'types/MealInfo'
 import { Modal } from 'antd'
+import CartDetail from './components/CartDetail'
 
 interface State {
   restaurantSelected?: RestaurantInfo
@@ -84,11 +85,13 @@ const reducer = (state: State, action: Action): State => {
         // the previous state directly
         const updatedMealsQuantity = { ...state.mealsQuantity }
         delete updatedMealsQuantity[meal.id]
+        const updatedMeals = state.mealsAdded.filter(
+          (addedMeal) => addedMeal.id !== meal.id,
+        )
         return {
-          ...state,
-          mealsAdded: state.mealsAdded.filter(
-            (addedMeal) => addedMeal.id !== meal.id,
-          ),
+          restaurantSelected:
+            updatedMeals.length === 0 ? undefined : state.restaurantSelected,
+          mealsAdded: updatedMeals,
           mealsQuantity: updatedMealsQuantity,
         }
       } else {
@@ -131,9 +134,10 @@ const Cart: React.FC = ({ children }) => {
             title: 'Items already in cart',
             content:
               'Your cart contains items from other restaurant. Would you like to reset your cart for adding items from this restaurant',
-            cancelButtonProps: { children: 'No' },
-            okButtonProps: { children: 'Yes, Start Afresh' },
             onOk: addNewRestaurant,
+            cancelText: 'No',
+            okText: 'Yes, Start Afresh',
+            icon: null,
           })
         }
       } else {
@@ -158,6 +162,7 @@ const Cart: React.FC = ({ children }) => {
       }}
     >
       {children}
+      {restaurantSelected ? <CartDetail /> : null}
     </CartContext.Provider>
   )
 }
