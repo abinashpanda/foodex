@@ -1,9 +1,11 @@
 import React, { useContext, useMemo } from 'react'
 import { ShoppingCart } from 'icons'
 import CartContext from 'contexts/CartContext'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const CartDetail = () => {
+  const { pathname } = useLocation()
+
   const { mealsAdded, mealsQuantity, restaurantSelected } = useContext(
     CartContext,
   )
@@ -21,6 +23,10 @@ const CartDetail = () => {
     () => Object.values(mealsQuantity).reduce((acc, value) => acc + value, 0),
     [mealsQuantity],
   )
+
+  if (!restaurantSelected || pathname === '/checkout') {
+    return null
+  }
 
   return (
     <div className="fixed bottom-0 left-0 right-0">

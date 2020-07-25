@@ -6,7 +6,6 @@ interface ErrorMessage {
 }
 
 export const getErrorMessage = (error?: ErrorMessage[]) => {
-  console.log(error)
   if (error && error[0]) {
     const errorMessage = error[0].messages
       .map((message) => message.message)

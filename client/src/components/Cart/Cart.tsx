@@ -90,7 +90,7 @@ const Cart: React.FC = ({ children }) => {
       }}
     >
       {children}
-      {restaurantSelected ? <CartDetail /> : null}
+      <CartDetail />
     </CartContext.Provider>
   )
 }
