@@ -44,6 +44,10 @@
     "orders": {
       "collection": "order",
       "via": "restaurant"
+    },
+    "slug": {
+      "type": "string",
+      "required": false
     }
   }
 }
