@@ -2,7 +2,7 @@ import React, { useContext, useCallback } from 'react'
 import { MealInfo } from 'types/MealInfo'
 import clsx from 'clsx'
 import { getImageUrl } from 'utils/image'
-import { Button } from 'antd'
+import { Button, Typography } from 'antd'
 import CartContext from 'contexts/CartContext'
 import { RestaurantInfo } from 'types/RestaurantInfo'
 
@@ -45,6 +45,12 @@ const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
       </div>
       <div className="flex flex-col flex-1 p-4">
         <div className="font-medium text-gray-800">{meal.name}</div>
+        <Typography.Paragraph
+          className="text-xs text-gray-500"
+          ellipsis={{ rows: 2 }}
+        >
+          {meal.description}
+        </Typography.Paragraph>
         <div className="flex-1 mb-2" />
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-gray-400">
