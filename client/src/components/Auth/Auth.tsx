@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import Axios from 'axios'
 import { User } from 'types/user'
 import AuthContext from 'contexts/AuthContext'
-import { message } from 'antd'
+import { message, Spin } from 'antd'
 import { getErrorMessage } from 'utils/error'
 
 const client = Axios.create({
@@ -132,8 +132,7 @@ const Auth: React.FC = ({ children }) => {
   if (!authVerified) {
     return (
       <div className="flex flex-col items-center justify-center w-screen h-screen bg-white">
-        <div className="mb-4 spinner" />
-        <div className="text-xs text-gray-600">Verifying User...</div>
+        <Spin tip="Verifying User..." />
       </div>
     )
   }

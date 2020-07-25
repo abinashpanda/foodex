@@ -43,7 +43,7 @@ const AppShell: React.FC = ({ children }) => {
       </div>
       <div className="flex-1 bg-white">
         <Scrollbars style={{ height: '100%' }} autoHide universal>
-          {children}
+          <div className="h-full mb-20">{children}</div>
         </Scrollbars>
       </div>
     </div>
