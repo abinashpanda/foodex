@@ -29,12 +29,16 @@ const AppShell: React.FC = ({ children }) => {
             trigger={['click']}
             overlay={
               <Menu>
+                <Menu.Item>Profile</Menu.Item>
+                <Menu.Item>Orders</Menu.Item>
+                <Menu.Divider />
                 <Menu.Item onClick={signOut}>Logout</Menu.Item>
               </Menu>
             }
+            placement="bottomCenter"
             arrow
           >
-            <button className="flex items-center p-2 space-x-2 text-gray-500 rounded focus:outline-none focus:shadow-outline">
+            <button className="flex items-center p-2 space-x-2 text-gray-500 rounded focus:outline-none">
               <UserCircle className="w-6 h-6" />
               <span className="text-sm text-gray-600">{userName}</span>
             </button>
