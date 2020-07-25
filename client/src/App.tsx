@@ -11,6 +11,8 @@ import Restaurants from 'pages/Restaurants'
 import RestaurantDetail from 'pages/RestaurantDetail'
 import Cart from 'components/Cart'
 import Checkout from 'pages/Checkout'
+import Orders from 'pages/Orders'
+import OrderDetail from 'pages/OrderDetail'
 
 const App = () => {
   return (
@@ -50,6 +52,13 @@ const App = () => {
               component={RestaurantDetail}
             />
             <Route path="/checkout" protectedRoute component={Checkout} />
+            <Route path="/orders" protectedRoute component={Orders} exact />
+            <Route
+              path="/orders/:orderId"
+              protectedRoute
+              component={OrderDetail}
+              exact
+            />
           </Switch>
         </Cart>
       </Apollo>
