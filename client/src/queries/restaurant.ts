@@ -44,7 +44,7 @@ export const CREATE_RESTAURANT_MUTATION = gql`
   mutation CreateRestaurant(
     $name: String!
     $location: String!
-    $cuisines: JSON
+    $cuisines: JSON!
     $images: [ID]!
     $ownerId: ID!
   ) {

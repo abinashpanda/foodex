@@ -10,7 +10,8 @@
   },
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
       "type": "string"
@@ -19,12 +20,12 @@
       "model": "file",
       "via": "related",
       "allowedTypes": [
-        "images",
         "files",
+        "images",
         "videos"
       ],
       "plugin": "upload",
-      "required": false
+      "required": true
     },
     "price": {
       "type": "decimal",
@@ -32,12 +33,12 @@
       "default": 0
     },
     "restaurant": {
-      "model": "restaurant",
-      "via": "meals"
+      "via": "meals",
+      "model": "restaurant"
     },
     "orderItems": {
-      "collection": "order-item",
-      "via": "meal"
+      "via": "meal",
+      "collection": "order-item"
     }
   }
 }

@@ -164,6 +164,9 @@ const CreateMeal: React.FC<Props> = ({ trigger }) => {
             name="image"
             valuePropName="fileList"
             getValueFromEvent={(event) => event.fileList}
+            rules={[
+              { required: true, message: 'Image is required', type: 'array' },
+            ]}
           >
             <ImageUploader multiple={false} />
           </Form.Item>

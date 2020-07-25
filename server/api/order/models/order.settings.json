@@ -15,18 +15,19 @@
       "via": "order"
     },
     "restaurant": {
-      "model": "restaurant",
-      "via": "orders"
+      "via": "orders",
+      "model": "restaurant"
     },
     "orderedAt": {
       "type": "datetime"
     },
     "price": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     },
     "orderItems": {
-      "collection": "order-item",
-      "via": "order"
+      "via": "order",
+      "collection": "order-item"
     },
     "statuses": {
       "via": "order",

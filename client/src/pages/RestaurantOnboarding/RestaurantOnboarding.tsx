@@ -132,6 +132,13 @@ const RestaurantOnboarding = () => {
                 name="images"
                 valuePropName="fileList"
                 getValueFromEvent={(event) => event.fileList}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Image is required',
+                    type: 'array',
+                  },
+                ]}
               >
                 <ImageUploader multiple />
               </Form.Item>

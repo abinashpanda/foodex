@@ -18,8 +18,8 @@ export interface CreateRestaurant_createRestaurant_restaurant {
   id: string;
   name: string;
   images: (CreateRestaurant_createRestaurant_restaurant_images | null)[] | null;
-  cuisines: any | null;
-  location: string | null;
+  cuisines: any;
+  location: string;
 }
 
 export interface CreateRestaurant_createRestaurant {
@@ -34,7 +34,7 @@ export interface CreateRestaurant {
 export interface CreateRestaurantVariables {
   name: string;
   location: string;
-  cuisines?: any | null;
+  cuisines: any;
   images: (string | null)[];
   ownerId: string;
 }

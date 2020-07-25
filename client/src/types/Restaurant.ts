@@ -18,8 +18,8 @@ export interface Restaurant_restaurant {
   id: string;
   name: string;
   images: (Restaurant_restaurant_images | null)[] | null;
-  cuisines: any | null;
-  location: string | null;
+  cuisines: any;
+  location: string;
 }
 
 export interface Restaurant {

@@ -18,6 +18,6 @@ export interface RestaurantInfo {
   id: string;
   name: string;
   images: (RestaurantInfo_images | null)[] | null;
-  cuisines: any | null;
-  location: string | null;
+  cuisines: any;
+  location: string;
 }

@@ -18,7 +18,8 @@
         "IN_ROUTE",
         "DELIVERED",
         "RECEIVED"
-      ]
+      ],
+      "required": true
     },
     "order": {
       "model": "order",

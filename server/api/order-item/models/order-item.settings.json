@@ -10,15 +10,16 @@
   },
   "attributes": {
     "quantity": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "meal": {
-      "via": "orderItems",
-      "model": "meal"
+      "model": "meal",
+      "via": "orderItems"
     },
     "order": {
-      "via": "orderItems",
-      "model": "order"
+      "model": "order",
+      "via": "orderItems"
     }
   }
 }

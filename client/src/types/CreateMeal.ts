@@ -21,7 +21,7 @@ export interface CreateMeal_createMeal_meal_restaurant {
 export interface CreateMeal_createMeal_meal {
   __typename: "Meal";
   id: string;
-  name: string | null;
+  name: string;
   description: string | null;
   price: number;
   image: CreateMeal_createMeal_meal_image | null;

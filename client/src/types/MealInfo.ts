@@ -21,7 +21,7 @@ export interface MealInfo_restaurant {
 export interface MealInfo {
   __typename: "Meal";
   id: string;
-  name: string | null;
+  name: string;
   description: string | null;
   price: number;
   image: MealInfo_image | null;

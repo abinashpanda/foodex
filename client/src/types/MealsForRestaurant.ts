@@ -21,7 +21,7 @@ export interface MealsForRestaurant_meals_restaurant {
 export interface MealsForRestaurant_meals {
   __typename: "Meal";
   id: string;
-  name: string | null;
+  name: string;
   description: string | null;
   price: number;
   image: MealsForRestaurant_meals_image | null;
