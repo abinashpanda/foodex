@@ -22,8 +22,8 @@
       "required": true
     },
     "order": {
-      "model": "order",
-      "via": "statuses"
+      "via": "statuses",
+      "model": "order"
     }
   }
 }

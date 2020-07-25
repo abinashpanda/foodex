@@ -8,9 +8,9 @@ module.exports = {
     input MealOrderInput {
       customer: ID!
       restaurant: ID!
-      orderedAt: DateTime!
       price: Float!
       meals: [OrderMealInput!]!
+      deliverAddress: ID!
     }
 
     input placeOrderInput {

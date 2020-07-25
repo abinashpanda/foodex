@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "delivery_addresses",
+  "info": {
+    "name": "DeliveryAddress"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "flat": {
+      "type": "string",
+      "required": true
+    },
+    "street": {
+      "type": "string",
+      "required": true
+    },
+    "landmark": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "HOME",
+        "OFFICE",
+        "OTHER"
+      ],
+      "required": true,
+      "default": "HOME"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "addresses"
+    },
+    "orders": {
+      "via": "deliveryAddress",
+      "collection": "order"
+    }
+  }
+}

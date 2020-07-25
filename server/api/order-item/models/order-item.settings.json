@@ -18,8 +18,8 @@
       "via": "orderItems"
     },
     "order": {
-      "model": "order",
-      "via": "orderItems"
+      "via": "orderItems",
+      "model": "order"
     }
   }
 }

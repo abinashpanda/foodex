@@ -54,8 +54,8 @@
       "configurable": false
     },
     "restaurant": {
-      "via": "owner",
-      "model": "restaurant"
+      "model": "restaurant",
+      "via": "owner"
     },
     "order": {
       "via": "customer",
@@ -68,12 +68,13 @@
         "CUSTOMER"
       ]
     },
-    "location": {
-      "type": "text"
-    },
     "name": {
       "type": "string",
       "required": true
+    },
+    "addresses": {
+      "via": "user",
+      "collection": "delivery-address"
     }
   }
 }

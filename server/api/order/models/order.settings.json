@@ -15,23 +15,24 @@
       "via": "order"
     },
     "restaurant": {
-      "via": "orders",
-      "model": "restaurant"
-    },
-    "orderedAt": {
-      "type": "datetime"
+      "model": "restaurant",
+      "via": "orders"
     },
     "price": {
       "type": "decimal",
       "required": true
     },
     "orderItems": {
-      "via": "order",
-      "collection": "order-item"
+      "collection": "order-item",
+      "via": "order"
     },
     "statuses": {
-      "via": "order",
-      "collection": "order-status"
+      "collection": "order-status",
+      "via": "order"
+    },
+    "deliveryAddress": {
+      "model": "delivery-address",
+      "via": "orders"
     }
   }
 }
