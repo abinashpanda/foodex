@@ -57,10 +57,6 @@
       "model": "restaurant",
       "via": "owner"
     },
-    "order": {
-      "via": "customer",
-      "model": "order"
-    },
     "type": {
       "type": "enumeration",
       "enum": [
@@ -75,6 +71,10 @@
     "addresses": {
       "via": "user",
       "collection": "delivery-address"
+    },
+    "orders": {
+      "via": "customer",
+      "collection": "order"
     }
   }
 }

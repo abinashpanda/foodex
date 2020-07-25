@@ -12,7 +12,7 @@
     "customer": {
       "plugin": "users-permissions",
       "model": "user",
-      "via": "order"
+      "via": "orders"
     },
     "restaurant": {
       "model": "restaurant",

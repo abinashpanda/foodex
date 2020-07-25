@@ -55,7 +55,7 @@ const Orders = () => {
       return (
         <div className="space-y-4">
           {data.orders?.map((order) => (
-            <Link to={`/orders/${order?.id}`} key={order?.id}>
+            <Link to={`/orders/${order?.id}`} key={order?.id} className="block">
               <OrderCard order={order as OrderInfo} />
             </Link>
           ))}
