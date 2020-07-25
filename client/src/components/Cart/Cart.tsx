@@ -1,36 +1,25 @@
-import React, { useCallback, useReducer, useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import CartContext from 'contexts/CartContext'
 import { RestaurantInfo } from 'types/RestaurantInfo'
 import { MealInfo } from 'types/MealInfo'
 import { Modal } from 'antd'
+import usePersistedReducer from 'hooks/usePersistedReducer'
 import CartDetail from './components/CartDetail'
 import { reducer } from './reducer'
 import { ActionType } from './action'
-
-const getDataFromLocalStorage = <T extends any>(
-  key: string,
-  initialValue: T,
-): T => {
-  // check if it browser or not
-  if (window && window.localStorage) {
-    const data = window.localStorage.getItem(key)
-    if (data) {
-      return JSON.parse(data) as T
-    }
-    return initialValue
-  }
-
-  return initialValue
-}
 
 const Cart: React.FC = ({ children }) => {
   const [
     { restaurantSelected, mealsAdded, mealsQuantity },
     dispatch,
-  ] = useReducer(reducer, {
-    restaurantSelected: getDataFromLocalStorage('cart-restaurant', undefined),
-    mealsAdded: getDataFromLocalStorage('cart-meals-added', []),
-    mealsQuantity: getDataFromLocalStorage('cart-meals-quantity', {}),
+  ] = usePersistedReducer({
+    key: 'foodex-cart',
+    reducer,
+    initialState: {
+      restaurantSelected: undefined,
+      mealsAdded: [],
+      mealsQuantity: {},
+    },
   })
 
   useEffect(() => {
@@ -72,12 +61,15 @@ const Cart: React.FC = ({ children }) => {
         addNewRestaurant()
       }
     },
-    [restaurantSelected],
+    [dispatch, restaurantSelected],
   )
 
-  const removeMeal = useCallback((meal: MealInfo) => {
-    dispatch({ type: ActionType.REMOVE_MEAL, payload: { meal } })
-  }, [])
+  const removeMeal = useCallback(
+    (meal: MealInfo) => {
+      dispatch({ type: ActionType.REMOVE_MEAL, payload: { meal } })
+    },
+    [dispatch],
+  )
 
   return (
     <CartContext.Provider
