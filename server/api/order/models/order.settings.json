@@ -10,9 +10,9 @@
   },
   "attributes": {
     "customer": {
-      "via": "order",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "order"
     },
     "restaurant": {
       "model": "restaurant",
@@ -24,20 +24,13 @@
     "price": {
       "type": "decimal"
     },
-    "status": {
-      "type": "enumeration",
-      "enum": [
-        "PLACED",
-        "CANCELLED",
-        "PROCESSING",
-        "IN_ROUTE",
-        "DELIVERED",
-        "RECEIVED"
-      ]
-    },
     "orderItems": {
       "collection": "order-item",
       "via": "order"
+    },
+    "statuses": {
+      "via": "order",
+      "collection": "order-status"
     }
   }
 }

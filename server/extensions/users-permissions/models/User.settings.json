@@ -58,8 +58,8 @@
       "via": "owner"
     },
     "order": {
-      "model": "order",
-      "via": "customer"
+      "via": "customer",
+      "model": "order"
     },
     "type": {
       "type": "enumeration",

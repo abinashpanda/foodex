@@ -25,6 +25,10 @@ module.exports = {
       ...orderData,
       orderItems,
     });
+    await strapi.services['order-status'].create({
+      status: 'PLACED',
+      order: entity._id,
+    });
     return sanitizeEntity(entity, { model: strapi.models.order });
   },
 };

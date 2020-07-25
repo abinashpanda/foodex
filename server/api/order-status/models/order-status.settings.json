@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_statuses",
+  "info": {
+    "name": "OrderStatus"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "PLACED",
+        "CANCELLED",
+        "PROCESSING",
+        "IN_ROUTE",
+        "DELIVERED",
+        "RECEIVED"
+      ]
+    },
+    "order": {
+      "model": "order",
+      "via": "statuses"
+    }
+  }
+}

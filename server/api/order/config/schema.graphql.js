@@ -10,7 +10,6 @@ module.exports = {
       restaurant: ID!
       orderedAt: DateTime!
       price: Float!
-      state: ENUM_ORDER_STATUS
       meals: [OrderMealInput!]!
     }
 
