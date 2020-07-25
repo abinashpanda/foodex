@@ -8,11 +8,7 @@ import {
 } from '@apollo/client'
 import AuthContext from 'contexts/AuthContext'
 
-interface Props {
-  children: React.ReactElement
-}
-
-const Apollo: React.FC<Props> = ({ children }) => {
+const Apollo: React.FC = ({ children }) => {
   const { jwt } = useContext(AuthContext)
 
   const client = useMemo(() => {

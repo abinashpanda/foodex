@@ -17,7 +17,7 @@ import { useHistory } from 'react-router-dom'
 import AppShell from 'components/AppShell'
 import { User } from 'types/user'
 import { message, Form, Input, Select, Button } from 'antd'
-import { cuisines } from 'utils/cuisines'
+import { cuisines } from 'utils/cuisine'
 import ImageUploader from 'components/ImageUploader'
 
 const RestaurantOnboarding = () => {

@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Meals: React.FC<Props> = ({ restaurant }) => {
-  const {} = useQuery<MealsForRestaurant, MealsForRestaurantVariables>(
+  const { loading } = useQuery<MealsForRestaurant, MealsForRestaurantVariables>(
     MEALS_FOR_RESTAURANT_QUERY,
     {
       variables: {
@@ -36,7 +36,7 @@ const Meals: React.FC<Props> = ({ restaurant }) => {
           }
         />
       </div>
-      <div className="w-full h-4 skeleton" />
+      {loading ? <div className="w-full h-4 skeleton" /> : null}
       <div className="grid grid-cols-4 gap-4" />
     </div>
   )

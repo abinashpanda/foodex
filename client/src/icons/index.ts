@@ -9,6 +9,7 @@ import ChevronRight from './ChevronRight'
 import ShoppingCart from './ShoppingCart'
 import Settings from './Settings'
 import Building from './Building'
+import UserCircle from './UserCircle'
 
 export {
   Eye,
@@ -22,4 +23,5 @@ export {
   ShoppingCart,
   Settings,
   Building,
+  UserCircle,
 }

@@ -3,6 +3,7 @@ import { RestaurantInfo, RestaurantInfo_images } from 'types/RestaurantInfo'
 import clsx from 'clsx'
 import { mod } from 'utils/number'
 import { ChevronLeft, ChevronRight, Cuisine, LocationMarker } from 'icons'
+import { getImageUrl } from 'utils/image'
 
 interface Restaurant
   extends Omit<RestaurantInfo, 'id' | '__typename' | 'images'> {
@@ -38,7 +39,7 @@ const RestaurantCard: React.FC<Props> = ({ restaurant, className, style }) => {
   return (
     <div
       className={clsx(
-        'w-full max-w-xs rounded-md overflow-hidden border bg-white group',
+        'w-full max-w-xs rounded-md overflow-hidden shadow bg-white group',
         className,
       )}
       style={style}
@@ -46,7 +47,7 @@ const RestaurantCard: React.FC<Props> = ({ restaurant, className, style }) => {
       <div className="relative w-full h-32 bg-gray-100">
         {restaurantImages.length > 0 ? (
           <img
-            src={restaurantImages[activeImageIndex].url}
+            src={getImageUrl(restaurantImages[activeImageIndex].url)}
             alt=""
             className="object-cover w-full h-full"
           />
@@ -68,18 +69,18 @@ const RestaurantCard: React.FC<Props> = ({ restaurant, className, style }) => {
           </>
         ) : null}
       </div>
-      <div className="p-4 space-y-1">
+      <div className="p-4 space-y-2">
         <div className="font-medium text-gray-800">{name}</div>
         {cuisines && cuisines.length > 0 ? (
-          <div className="flex items-center space-x-2 text-sm text-gray-400">
-            <Cuisine className="w-4 h-4" />
-            <span>{cuisines.join(', ')}</span>
+          <div className="flex items-center space-x-2 text-xs text-gray-400">
+            <Cuisine className="flex-shrink-0 w-4 h-4" />
+            <span className="text-gray-500">{cuisines.join(', ')}</span>
           </div>
         ) : null}
         {location ? (
-          <div className="flex items-center space-x-2 text-sm text-gray-400">
-            <LocationMarker className="w-4 h-4" />
-            <span>{location}</span>
+          <div className="flex items-center space-x-2 text-xs text-gray-400">
+            <LocationMarker className="flex-shrink-0 w-4 h-4" />
+            <span className="text-gray-500">{location}</span>
           </div>
         ) : null}
       </div>

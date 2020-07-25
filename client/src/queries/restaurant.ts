@@ -22,6 +22,15 @@ export const RESTAURANT_FOR_OWNER_QUERY = gql`
   ${RESTAURANT_INFO_FRAGMENT}
 `
 
+export const RESTAURANTS_FOR_CUSTOMER_QUERY = gql`
+  query RestaurantsForCustomer {
+    restaurants {
+      ...RestaurantInfo
+    }
+  }
+  ${RESTAURANT_INFO_FRAGMENT}
+`
+
 export const CREATE_RESTAURANT_MUTATION = gql`
   mutation CreateRestaurant(
     $name: String!
