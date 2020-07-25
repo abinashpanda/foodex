@@ -29,8 +29,12 @@ const AppShell: React.FC = ({ children }) => {
             trigger={['click']}
             overlay={
               <Menu>
-                <Menu.Item>Profile</Menu.Item>
-                <Menu.Item>Orders</Menu.Item>
+                <Menu.Item>
+                  <Link to="/profile">Profile</Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link to="/orders">Orders</Link>
+                </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item onClick={signOut}>Logout</Menu.Item>
               </Menu>
