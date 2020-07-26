@@ -15,6 +15,26 @@ import { Spin, Result } from 'antd'
 import DashboardLink from './components/DashboardLink'
 import RestaurantOrders from './components/RestaurantOrders'
 import RestaurantOrderDetail from './components/RestaurantOrderDetail'
+import RouteSelect from './components/RouteSelect'
+
+const dashboardRoutes = [
+  {
+    label: 'Orders',
+    to: '/owner-dashboard/orders',
+    pathname: '/owner-dashboard/orders/:orderId?',
+    icon: ShoppingCart,
+  },
+  {
+    label: 'Meals',
+    to: '/owner-dashboard/meals',
+    icon: Cuisine,
+  },
+  {
+    label: 'Restaurant',
+    to: '/owner-dashboard/restaurant',
+    icon: Building,
+  },
+]
 
 const OwnerDashboard = () => {
   const { _id: userId } = useContext(AuthContext).user as User
@@ -46,25 +66,15 @@ const OwnerDashboard = () => {
 
       return (
         <div className="grid items-start grid-cols-5 gap-6">
-          <div className="col-span-1 p-3 space-y-3 bg-white rounded-md shadow">
-            <DashboardLink
-              to="/owner-dashboard/orders"
-              pathname="/owner-dashboard/orders/:ownerId?"
-              icon={ShoppingCart}
-              label="Orders"
-            />
-            <DashboardLink
-              to="/owner-dashboard/meals"
-              icon={Cuisine}
-              label="Meals"
-            />
-            <DashboardLink
-              to="/owner-dashboard/restaurant"
-              icon={Building}
-              label="Restaurant"
-            />
+          <div className="hidden col-span-1 p-3 space-y-3 bg-white rounded-md shadow md:block">
+            {dashboardRoutes.map((route) => (
+              <DashboardLink key={route.to} {...route} />
+            ))}
           </div>
-          <div className="col-span-4">
+          <div className="block col-span-5 md:hidden">
+            <RouteSelect routes={dashboardRoutes} />
+          </div>
+          <div className="col-span-5 md:col-span-4">
             <Route
               path="/owner-dashboard"
               exact

@@ -1,6 +1,6 @@
 import React, { createElement } from 'react'
 import clsx from 'clsx'
-import { Link, useHistory, matchPath } from 'react-router-dom'
+import { Link, useRouteMatch } from 'react-router-dom'
 
 interface Props {
   icon: React.ComponentType<any>
@@ -20,11 +20,7 @@ const DashboardLink: React.FC<Props> = ({
   className,
   style,
 }) => {
-  const {
-    location: { pathname: locationPathname },
-  } = useHistory()
-
-  const isActive = matchPath(locationPathname, {
+  const isActive = useRouteMatch({
     exact: true,
     strict: true,
     path: pathname || to,
