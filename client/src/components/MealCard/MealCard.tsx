@@ -21,19 +21,21 @@ const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
   return (
     <div
       className={clsx(
-        'overflow-hidden rounded-md shadow bg-white flex flex-col',
+        'overflow-hidden rounded-md shadow bg-white flex flex-row md:flex-col',
         className,
       )}
       style={style}
     >
-      <div className="w-full h-32 bg-gray-200">
-        {meal.image ? (
-          <img
-            src={getImageUrl(meal.image.url)}
-            alt={meal.name || ''}
-            className="object-cover w-full h-full"
-          />
-        ) : null}
+      <div className="relative w-32 bg-gray-100 md:w-full md:h-32">
+        <div className="absolute inset-0">
+          {meal.image ? (
+            <img
+              src={getImageUrl(meal.image.url)}
+              alt={meal.name || ''}
+              className="object-cover w-full h-full"
+            />
+          ) : null}
+        </div>
       </div>
       <div className="flex flex-col flex-1 p-4">
         <div className="font-medium text-gray-800">{meal.name}</div>

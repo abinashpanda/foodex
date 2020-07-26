@@ -28,12 +28,12 @@ const RestaurantInfo: React.FC<Props> = ({
   const content = useMemo(() => {
     if (loading) {
       return (
-        <div className="flex items-center space-x-6">
-          <div className="w-64 h-40 skeleton" />
+        <div className="flex items-center">
+          <div className="hidden w-64 h-40 mr-6 skeleton md:block" />
           <div className="flex-1">
-            <div className="w-7/12 h-8 mb-4 skeleton" />
-            <div className="w-4/12 h-4 mb-4 skeleton" />
-            <div className="w-3/12 h-4 skeleton" />
+            <div className="w-full h-4 mb-4 md:w-7/12 md:h-8 skeleton" />
+            <div className="w-7/12 h-4 mb-4 md:w-4/12 skeleton" />
+            <div className="w-4/12 h-4 md:w-3/12 skeleton" />
           </div>
         </div>
       )
@@ -52,8 +52,8 @@ const RestaurantInfo: React.FC<Props> = ({
     if (data && data.restaurant) {
       const { restaurant } = data
       return (
-        <div className="flex items-center space-x-6">
-          <div className="w-64 h-40 overflow-hidden rounded-md">
+        <div className="flex items-center">
+          <div className="hidden w-64 h-40 mr-6 overflow-hidden rounded-md mb:block">
             {restaurant.images?.[0]?.url ? (
               <img
                 src={getImageUrl(restaurant.images[0].url)}
@@ -63,9 +63,11 @@ const RestaurantInfo: React.FC<Props> = ({
             ) : null}
           </div>
           <div className="flex-1 space-y-3">
-            <h1 className="text-2xl text-white">{data.restaurant.name}</h1>
+            <h1 className="text-lg text-white md:text-2xl">
+              {data.restaurant.name}
+            </h1>
             {restaurant.cuisines && restaurant.cuisines.length > 0 ? (
-              <div className="flex items-center space-x-4 text-sm text-gray-300">
+              <div className="flex items-center space-x-4 text-xs text-gray-300 md:text-sm">
                 <Cuisine className="flex-shrink-0 w-5 h-5" />
                 <span className="text-gray-200">
                   {restaurant.cuisines.join(', ')}
@@ -73,7 +75,7 @@ const RestaurantInfo: React.FC<Props> = ({
               </div>
             ) : null}
             {restaurant.location ? (
-              <div className="flex items-center space-x-4 text-sm text-gray-300">
+              <div className="flex items-center space-x-4 text-xs text-gray-300 md:text-sm">
                 <LocationMarker className="flex-shrink-0 w-5 h-5" />
                 <span className="text-gray-200">{restaurant.location}</span>
               </div>
@@ -87,7 +89,10 @@ const RestaurantInfo: React.FC<Props> = ({
   }, [data, error, loading])
 
   return (
-    <div className={clsx('px-4 py-8 bg-gray-900')} style={style}>
+    <div
+      className={clsx('px-6 md:px-4 py-4 md:py-8 bg-gray-900')}
+      style={style}
+    >
       <div className="max-w-screen-lg mx-auto">{content}</div>
     </div>
   )
