@@ -1,22 +1,13 @@
-import React, { useCallback, useContext } from 'react'
+import React from 'react'
 import { OrderInfo } from 'types/OrderInfo'
 import clsx from 'clsx'
-import { orderBy, capitalize } from 'lodash-es'
+import { orderBy } from 'lodash-es'
 import { StatusInfo } from 'types/StatusInfo'
 import moment from 'moment'
 import { getImageUrl } from 'utils/image'
-import { Button } from 'antd'
-import { useMutation } from '@apollo/client'
-import {
-  MarkOrderReceived,
-  MarkOrderReceivedVariables,
-} from 'types/MarkOrderReceived'
-import { MARK_ORDER_RECEIVED_MUTATION } from 'queries/status'
-import { ORDER_QUERY } from 'queries/order'
-import CartContext from 'contexts/CartContext'
-import { useHistory } from 'react-router-dom'
-import { MealInfo } from 'types/MealInfo'
-import { RestaurantInfo } from 'types/RestaurantInfo'
+import MarkReceivedButton from 'components/MarkReceivedButton'
+import ReorderButton from 'components/ReorderButton'
+import { getStatusName } from 'utils/status'
 
 interface Props {
   order: OrderInfo
@@ -31,50 +22,6 @@ const OrderCard: React.FC<Props> = ({ order, className, style }) => {
     statuses as StatusInfo[],
     (status) => moment(status.createdAt).valueOf(),
     'desc',
-  )
-
-  const [markOrderReceived, { loading: markingOrderReceived }] = useMutation<
-    MarkOrderReceived,
-    MarkOrderReceivedVariables
-  >(MARK_ORDER_RECEIVED_MUTATION, {
-    variables: { orderId: order.id },
-    refetchQueries: () => [
-      { query: ORDER_QUERY, variables: { orderId: order.id } },
-    ],
-  })
-
-  const handleOrderReceived = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault()
-      markOrderReceived()
-    },
-    [markOrderReceived],
-  )
-
-  const { setCart } = useContext(CartContext)
-
-  const history = useHistory()
-
-  const handleReorderItems = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      event.preventDefault()
-      if (order) {
-        const { restaurant, orderItems } = order
-        const mealsAdded =
-          orderItems?.map((orderItem) => orderItem?.meal as MealInfo) ?? []
-        const mealsQuantity =
-          orderItems?.reduce(
-            (acc, orderItem) => ({
-              ...acc,
-              [(orderItem?.meal as MealInfo).id]: orderItem?.quantity ?? 0,
-            }),
-            {},
-          ) ?? {}
-        setCart(restaurant as RestaurantInfo, mealsAdded, mealsQuantity)
-        history.push('/checkout')
-      }
-    },
-    [history, order, setCart],
   )
 
   return (
@@ -107,36 +54,20 @@ const OrderCard: React.FC<Props> = ({ order, className, style }) => {
             </div>
             <div className="space-x-1 text-xs text-right text-gray-500">
               <span className="font-medium text-green-500">
-                {orderStatuses[0].status
-                  .split('_')
-                  .map((val) => capitalize(val))
-                  .join(' ')}{' '}
+                {getStatusName(orderStatuses[0].status)}
               </span>
+              <span>|</span>
               <span>
-                |{' '}
                 {moment(orderStatuses[0].createdAt).format(
                   'Do MMM YYYY, hh:mm a',
                 )}
               </span>
             </div>
             {orderStatuses[0].status === 'DELIVERED' ? (
-              <Button
-                type="primary"
-                onClick={handleOrderReceived}
-                loading={markingOrderReceived}
-                className="h-8 leading-none"
-              >
-                Order Received
-              </Button>
+              <MarkReceivedButton order={order} className="h-8 leading-none" />
             ) : null}
             {orderStatuses[0].status === 'RECEIVED' ? (
-              <Button
-                type="primary"
-                onClick={handleReorderItems}
-                className="h-8 leading-none"
-              >
-                Reorder Items
-              </Button>
+              <ReorderButton order={order} className="h-8 leading-none" />
             ) : null}
           </div>
         </>

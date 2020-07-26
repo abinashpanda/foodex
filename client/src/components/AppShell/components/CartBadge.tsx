@@ -5,15 +5,10 @@ import { Badge } from 'antd'
 import { Link } from 'react-router-dom'
 
 const CartBadge = () => {
-  const { mealsQuantity } = useContext(CartContext)
-
-  const totalItemsAdded = Object.values(mealsQuantity).reduce(
-    (acc, quantity) => acc + quantity,
-    0,
-  )
+  const { totalItems } = useContext(CartContext)
 
   return (
-    <Badge count={totalItemsAdded}>
+    <Badge count={totalItems}>
       <Link to="/checkout">
         <ShoppingCart className="w-6 h-6" />
       </Link>

@@ -1,10 +1,12 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext } from 'react'
 import { MealInfo } from 'types/MealInfo'
 import clsx from 'clsx'
 import { getImageUrl } from 'utils/image'
-import { Button, Typography } from 'antd'
-import CartContext from 'contexts/CartContext'
+import { Typography } from 'antd'
 import { RestaurantInfo } from 'types/RestaurantInfo'
+import AddToCartButton from 'components/AddToCartButton'
+import AuthContext from 'contexts/AuthContext'
+import { User } from 'types/user'
 
 interface Props {
   meal: MealInfo
@@ -14,17 +16,7 @@ interface Props {
 }
 
 const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
-  const { mealsQuantity, addMeal, removeMeal } = useContext(CartContext)
-
-  const handleAddMeal = useCallback(() => {
-    if (restaurant) {
-      addMeal(meal, restaurant)
-    }
-  }, [addMeal, meal, restaurant])
-
-  const handleRemoveMeal = useCallback(() => {
-    removeMeal(meal)
-  }, [meal, removeMeal])
+  const { type: userType } = useContext(AuthContext).user as User
 
   return (
     <div
@@ -56,23 +48,9 @@ const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
           <span className="text-sm font-medium text-gray-400">
             ₹{meal.price}
           </span>
-          {mealsQuantity[meal.id] ? (
-            <div className="flex items-center space-x-2">
-              <Button onClick={handleAddMeal} size="small" shape="circle">
-                +
-              </Button>
-              <span className="text-sm font-medium text-gray-800">
-                {mealsQuantity[meal.id]}
-              </span>
-              <Button onClick={handleRemoveMeal} size="small" shape="circle">
-                -
-              </Button>
-            </div>
-          ) : (
-            <Button onClick={handleAddMeal} className="h-8 leading-none">
-              Add
-            </Button>
-          )}
+          {userType === 'CUSTOMER' && restaurant ? (
+            <AddToCartButton restaurant={restaurant} meal={meal} />
+          ) : null}
         </div>
       </div>
     </div>

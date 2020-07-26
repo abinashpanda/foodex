@@ -1,24 +1,19 @@
-import React, { useMemo, useCallback, useContext } from 'react'
+import React, { useMemo } from 'react'
 import AppShell from 'components/AppShell'
-import { useQuery, useMutation } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { OrderVariables, Order } from 'types/Order'
 import { ORDER_QUERY } from 'queries/order'
-import { RouteComponentProps, Link, useHistory } from 'react-router-dom'
-import { Result, Button } from 'antd'
-import { range, orderBy, capitalize } from 'lodash-es'
+import { RouteComponentProps, Link } from 'react-router-dom'
+import { Result } from 'antd'
+import { range, orderBy } from 'lodash-es'
 import { OrderInfo } from 'types/OrderInfo'
 import { getImageUrl } from 'utils/image'
 import { StatusInfo } from 'types/StatusInfo'
 import moment from 'moment'
 import { Clock } from 'icons'
-import { MARK_ORDER_RECEIVED_MUTATION } from 'queries/status'
-import {
-  MarkOrderReceived,
-  MarkOrderReceivedVariables,
-} from 'types/MarkOrderReceived'
-import CartContext from 'contexts/CartContext'
-import { MealInfo } from 'types/MealInfo'
-import { RestaurantInfo } from 'types/RestaurantInfo'
+import MarkReceivedButton from 'components/MarkReceivedButton'
+import ReorderButton from 'components/ReorderButton'
+import { getStatusName } from 'utils/status'
 
 interface Props extends RouteComponentProps {}
 
@@ -32,40 +27,6 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
       pollInterval: 10000,
     },
   )
-
-  const [markOrderReceived, { loading: markingOrderReceived }] = useMutation<
-    MarkOrderReceived,
-    MarkOrderReceivedVariables
-  >(MARK_ORDER_RECEIVED_MUTATION, {
-    variables: { orderId },
-    refetchQueries: () => [{ query: ORDER_QUERY, variables: { orderId } }],
-  })
-
-  const handleOrderReceived = useCallback(() => {
-    markOrderReceived()
-  }, [markOrderReceived])
-
-  const { setCart } = useContext(CartContext)
-
-  const history = useHistory()
-
-  const handleReorderItems = useCallback(() => {
-    if (data?.order) {
-      const { restaurant, orderItems } = data.order
-      const mealsAdded =
-        orderItems?.map((orderItem) => orderItem?.meal as MealInfo) ?? []
-      const mealsQuantity =
-        orderItems?.reduce(
-          (acc, orderItem) => ({
-            ...acc,
-            [(orderItem?.meal as MealInfo).id]: orderItem?.quantity ?? 0,
-          }),
-          {},
-        ) ?? {}
-      setCart(restaurant as RestaurantInfo, mealsAdded, mealsQuantity)
-      history.push('/checkout')
-    }
-  }, [data, history, setCart])
 
   const content = useMemo(() => {
     if (loading) {
@@ -114,8 +75,6 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
 
     if (data) {
       const { restaurant, orderItems, statuses } = data.order as OrderInfo
-
-      const deliveryCharges = 0
 
       const orderStatuses = orderBy(
         statuses as StatusInfo[],
@@ -194,13 +153,13 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
               <div className="text-sm font-medium text-gray-700">
                 Delivery Charges
               </div>
-              <div className="w-16 text-right">₹{deliveryCharges}</div>
+              <div className="w-16 text-right">₹0</div>
             </div>
             <div className="mb-4 border-b" />
             <div className="flex items-center justify-between">
               <div className="text-base font-medium text-gray-900">To Pay</div>
               <div className="w-16 font-medium text-right text-gray-900">
-                ₹{data.order?.price ?? 0 + deliveryCharges}
+                ₹{data.order?.price ?? 0}
               </div>
             </div>
           </div>
@@ -213,10 +172,7 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
               {orderStatuses.map((status) => (
                 <div key={status.id} className="p-3 rounded-md shadow">
                   <div className="font-medium text-gray-800">
-                    {status.status
-                      .split('_')
-                      .map((val) => capitalize(val))
-                      .join(' ')}
+                    {getStatusName(status.status)}
                   </div>
                   <div className="text-xs text-gray-500">
                     {moment(status.createdAt).format('Do MMM, YYYY | hh:mm a')}
@@ -224,23 +180,16 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
                 </div>
               ))}
               {orderStatuses[0].status === 'DELIVERED' ? (
-                <Button
-                  type="primary"
+                <MarkReceivedButton
                   className="w-full"
-                  onClick={handleOrderReceived}
-                  loading={markingOrderReceived}
-                >
-                  Order Received
-                </Button>
+                  order={data.order as OrderInfo}
+                />
               ) : null}
               {orderStatuses[0].status === 'RECEIVED' ? (
-                <Button
-                  type="primary"
+                <ReorderButton
                   className="w-full"
-                  onClick={handleReorderItems}
-                >
-                  Reorder Items
-                </Button>
+                  order={data.order as OrderInfo}
+                />
               ) : null}
             </div>
           </div>
@@ -249,14 +198,7 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
     }
 
     return null
-  }, [
-    data,
-    error,
-    handleOrderReceived,
-    handleReorderItems,
-    loading,
-    markingOrderReceived,
-  ])
+  }, [data, error, loading])
 
   return (
     <AppShell>

@@ -29,19 +29,10 @@ const ConfirmOrder = () => {
   const {
     mealsQuantity,
     restaurantSelected,
-    mealsAdded,
+    totalCost,
     resetCart,
   } = useContext(CartContext)
   const { id: restaurantId } = restaurantSelected as RestaurantInfo
-
-  const totalItemsCost = useMemo(
-    () =>
-      mealsAdded.reduce(
-        (acc, meal) => acc + meal.price * mealsQuantity[meal.id],
-        0,
-      ),
-    [mealsAdded, mealsQuantity],
-  )
 
   const { loading, data, error } = useQuery<
     AddressesForUser,
@@ -98,7 +89,7 @@ const ConfirmOrder = () => {
         variables: {
           customerId: userId,
           restaurantId,
-          price: totalItemsCost,
+          price: totalCost,
           meals: Object.keys(mealsQuantity).map((meal) => ({
             meal,
             quantity: mealsQuantity[meal],
@@ -107,7 +98,7 @@ const ConfirmOrder = () => {
         },
       })
     },
-    [mealsQuantity, placeOrderMutation, restaurantId, totalItemsCost, userId],
+    [mealsQuantity, placeOrderMutation, restaurantId, totalCost, userId],
   )
 
   const content = useMemo(() => {
