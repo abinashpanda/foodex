@@ -39,34 +39,6 @@ export interface PlaceOrder_placeOrder_deliveryAddress {
   type: ENUM_DELIVERYADDRESS_TYPE;
 }
 
-export interface PlaceOrder_placeOrder_orderItems_meal_image {
-  __typename: "UploadFile";
-  id: string;
-  url: string;
-}
-
-export interface PlaceOrder_placeOrder_orderItems_meal_restaurant {
-  __typename: "Restaurant";
-  id: string;
-}
-
-export interface PlaceOrder_placeOrder_orderItems_meal {
-  __typename: "Meal";
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  image: PlaceOrder_placeOrder_orderItems_meal_image | null;
-  restaurant: PlaceOrder_placeOrder_orderItems_meal_restaurant | null;
-}
-
-export interface PlaceOrder_placeOrder_orderItems {
-  __typename: "OrderItem";
-  id: string;
-  meal: PlaceOrder_placeOrder_orderItems_meal | null;
-  quantity: number;
-}
-
 export interface PlaceOrder_placeOrder_statuses {
   __typename: "OrderStatus";
   id: string;
@@ -81,8 +53,8 @@ export interface PlaceOrder_placeOrder {
   customer: PlaceOrder_placeOrder_customer | null;
   restaurant: PlaceOrder_placeOrder_restaurant | null;
   deliveryAddress: PlaceOrder_placeOrder_deliveryAddress | null;
-  orderItems: (PlaceOrder_placeOrder_orderItems | null)[] | null;
   statuses: (PlaceOrder_placeOrder_statuses | null)[] | null;
+  billInfo: any;
 }
 
 export interface PlaceOrder {
@@ -95,4 +67,5 @@ export interface PlaceOrderVariables {
   price: number;
   meals: OrderMealInput[];
   deliveryAddressId: string;
+  billInfo: any;
 }

@@ -16,7 +16,8 @@ const ReorderButton: React.FC<Props> = ({ order, ...restProps }) => {
   const history = useHistory()
 
   const handleClick = useCallback(() => {
-    const { restaurant, orderItems } = order
+    const { restaurant, billInfo } = order
+    const orderItems = billInfo as { meal: MealInfo; quantity: number }[]
     const mealsAdded =
       orderItems?.map((orderItem) => orderItem?.meal as MealInfo) ?? []
     const mealsQuantity =

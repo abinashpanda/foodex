@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { MEAL_INFO_FRAGMENT } from './meal'
 import { ADDRESS_INFO_FRAGMENT } from './address'
 import { RESTAURANT_INFO_FRAGMENT } from './restaurant'
 import { STATUS_INFO_FRAGMENT } from './status'
@@ -18,18 +17,11 @@ export const ORDER_INFO_FRAGMENT = gql`
     deliveryAddress {
       ...AddressInfo
     }
-    orderItems {
-      id
-      meal {
-        ...MealInfo
-      }
-      quantity
-    }
     statuses {
       ...StatusInfo
     }
+    billInfo
   }
-  ${MEAL_INFO_FRAGMENT}
   ${ADDRESS_INFO_FRAGMENT}
   ${RESTAURANT_INFO_FRAGMENT}
   ${STATUS_INFO_FRAGMENT}
@@ -42,6 +34,7 @@ export const PLACE_ORDER_MUTATION = gql`
     $price: Float!
     $meals: [OrderMealInput!]!
     $deliveryAddressId: ID!
+    $billInfo: JSON!
   ) {
     placeOrder(
       input: {
@@ -51,6 +44,7 @@ export const PLACE_ORDER_MUTATION = gql`
           price: $price
           meals: $meals
           deliveryAddress: $deliveryAddressId
+          billInfo: $billInfo
         }
       }
     ) {

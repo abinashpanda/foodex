@@ -68,17 +68,16 @@ const RestaurantOrderDetail: React.FC<Props> = ({ match: { params } }) => {
   }
 
   if (data && data.order) {
+    const { billInfo } = data.order
+    const orderItems = billInfo as { meal: MealInfo; quantity: number }[]
+
     return (
       <div className="grid items-start grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         <div className="col-span-1 lg:col-span-2">
           <ItemsOrdered
             restaurant={data.order.restaurant as RestaurantInfo}
             totalCost={data.order.price}
-            orderItems={
-              data.order.orderItems?.filter(
-                (orderItem) => !!orderItem?.meal,
-              ) as { meal: MealInfo; quantity: number }[]
-            }
+            orderItems={orderItems}
           />
         </div>
         <div className="col-span-1">

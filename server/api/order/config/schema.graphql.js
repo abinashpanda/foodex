@@ -11,6 +11,7 @@ module.exports = {
       price: Float!
       meals: [OrderMealInput!]!
       deliveryAddress: ID!
+      billInfo: JSON!
     }
 
     input placeOrderInput {

@@ -33,6 +33,10 @@
     "deliveryAddress": {
       "model": "delivery-address",
       "via": "orders"
+    },
+    "billInfo": {
+      "type": "json",
+      "required": true
     }
   }
 }

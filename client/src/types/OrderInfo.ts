@@ -39,34 +39,6 @@ export interface OrderInfo_deliveryAddress {
   type: ENUM_DELIVERYADDRESS_TYPE;
 }
 
-export interface OrderInfo_orderItems_meal_image {
-  __typename: "UploadFile";
-  id: string;
-  url: string;
-}
-
-export interface OrderInfo_orderItems_meal_restaurant {
-  __typename: "Restaurant";
-  id: string;
-}
-
-export interface OrderInfo_orderItems_meal {
-  __typename: "Meal";
-  id: string;
-  name: string;
-  description: string | null;
-  price: number;
-  image: OrderInfo_orderItems_meal_image | null;
-  restaurant: OrderInfo_orderItems_meal_restaurant | null;
-}
-
-export interface OrderInfo_orderItems {
-  __typename: "OrderItem";
-  id: string;
-  meal: OrderInfo_orderItems_meal | null;
-  quantity: number;
-}
-
 export interface OrderInfo_statuses {
   __typename: "OrderStatus";
   id: string;
@@ -81,6 +53,6 @@ export interface OrderInfo {
   customer: OrderInfo_customer | null;
   restaurant: OrderInfo_restaurant | null;
   deliveryAddress: OrderInfo_deliveryAddress | null;
-  orderItems: (OrderInfo_orderItems | null)[] | null;
   statuses: (OrderInfo_statuses | null)[] | null;
+  billInfo: any;
 }

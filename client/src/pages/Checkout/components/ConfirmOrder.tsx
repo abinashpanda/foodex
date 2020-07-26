@@ -27,6 +27,7 @@ const ConfirmOrder = () => {
   const { _id: userId } = useContext(AuthContext).user as User
 
   const {
+    mealsAdded,
     mealsQuantity,
     restaurantSelected,
     totalCost,
@@ -95,10 +96,28 @@ const ConfirmOrder = () => {
             quantity: mealsQuantity[meal],
           })),
           deliveryAddressId: deliveryAddress,
+          // Bill Info object stores the meals along with the quantity ordered in a JSON format
+          // it is the actual snapshot using which the bill is generated
+          // this type of reduncancy is there to make sure that even if the price of a meal
+          // gets changed or the meal gets deleted, there is no discrepancy in the bill shown to the
+          // user in the order details
+          // this information is not used to do analytics like the number of items ordered for a patricular
+          // meal, that can be computed using the aggregations of the orderItems
+          billInfo: mealsAdded.map((meal) => ({
+            meal,
+            quantity: mealsQuantity[meal.id],
+          })),
         },
       })
     },
-    [mealsQuantity, placeOrderMutation, restaurantId, totalCost, userId],
+    [
+      mealsAdded,
+      mealsQuantity,
+      placeOrderMutation,
+      restaurantId,
+      totalCost,
+      userId,
+    ],
   )
 
   const content = useMemo(() => {
