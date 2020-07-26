@@ -32,12 +32,14 @@ const Checkout = () => {
     }
 
     return (
-      <div className="grid items-start max-w-screen-lg grid-cols-3 gap-4 py-4 mx-auto">
-        <div className="col-span-2">
-          <CheckoutCart />
-        </div>
-        <div className="col-span-1">
-          <ConfirmOrder />
+      <div className="px-4">
+        <div className="grid items-start max-w-screen-lg grid-cols-1 gap-4 py-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
+          <div className="col-span-1 lg:col-span-2">
+            <CheckoutCart />
+          </div>
+          <div className="col-span-1">
+            <ConfirmOrder />
+          </div>
         </div>
       </div>
     )

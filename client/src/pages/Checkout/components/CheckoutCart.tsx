@@ -48,7 +48,7 @@ const CheckoutCart = () => {
               <div className="text-sm font-medium text-gray-700">
                 {meal.name}
               </div>
-              <div className="max-w-sm text-xs text-gray-400 truncate">
+              <div className="w-40 text-xs text-gray-400 truncate lg:w-full lg:max-w-sm">
                 {meal.description}
               </div>
             </div>
