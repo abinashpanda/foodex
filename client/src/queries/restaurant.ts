@@ -66,3 +66,30 @@ export const CREATE_RESTAURANT_MUTATION = gql`
   }
   ${RESTAURANT_INFO_FRAGMENT}
 `
+
+export const UPDATE_RESTAURANT_MUTATION = gql`
+  mutation UpdateRestaurant(
+    $name: String!
+    $location: String!
+    $cuisines: JSON!
+    $images: [ID]!
+    $restaurantId: ID!
+  ) {
+    updateRestaurant(
+      input: {
+        where: { id: $restaurantId }
+        data: {
+          name: $name
+          location: $location
+          cuisines: $cuisines
+          images: $images
+        }
+      }
+    ) {
+      restaurant {
+        ...RestaurantInfo
+      }
+    }
+  }
+  ${RESTAURANT_INFO_FRAGMENT}
+`
