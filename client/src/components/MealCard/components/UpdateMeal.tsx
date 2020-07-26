@@ -1,24 +1,21 @@
-import React, { useCallback, useState, cloneElement } from 'react'
-import { useMutation } from '@apollo/client'
-import { RestaurantInfo } from 'types/RestaurantInfo'
-import { CREATE_MEAL_MUTATION, MEALS_FOR_RESTAURANT_QUERY } from 'queries/meal'
-import {
-  CreateMeal as CreateMealInterface,
-  CreateMealVariables,
-} from 'types/CreateMeal'
-import {
-  MealsForRestaurant,
-  MealsForRestaurantVariables,
-} from 'types/MealsForRestaurant'
-import { message, Form, Input, InputNumber, Modal } from 'antd'
+import React, { useState, useCallback, cloneElement } from 'react'
+import { MealInfo } from 'types/MealInfo'
+import { Modal, Form, Input, InputNumber, message } from 'antd'
 import ImageUploader from 'components/ImageUploader'
+import { transformToUploaderObject } from 'utils/image'
+import { useMutation } from '@apollo/client'
+import {
+  UpdateMeal as UpdateMealInterface,
+  UpdateMealVariables,
+} from 'types/UpdateMeal'
+import { UPDATE_MEAL_MUTATION, MEAL_INFO_FRAGMENT } from 'queries/meal'
 
 interface Props {
   trigger: JSX.Element
-  restaurant: RestaurantInfo
+  meal: MealInfo
 }
 
-const CreateMeal: React.FC<Props> = ({ trigger, restaurant }) => {
+const UpdateMeal: React.FC<Props> = ({ trigger, meal }) => {
   const [modalOpened, setModalOpened] = useState(false)
 
   const [form] = Form.useForm()
@@ -32,75 +29,56 @@ const CreateMeal: React.FC<Props> = ({ trigger, restaurant }) => {
     setModalOpened(true)
   }, [])
 
-  const [createMealMutation, { loading }] = useMutation<
-    CreateMealInterface,
-    CreateMealVariables
-  >(CREATE_MEAL_MUTATION, {
+  const [updateMealMutation, { loading }] = useMutation<
+    UpdateMealInterface,
+    UpdateMealVariables
+  >(UPDATE_MEAL_MUTATION, {
     update: (cache, { data }) => {
-      if (data?.createMeal?.meal) {
-        const { id: restaurantId } = restaurant
-
-        let mealsForRestaurant
-
-        try {
-          mealsForRestaurant = cache.readQuery<
-            MealsForRestaurant,
-            MealsForRestaurantVariables
-          >({ query: MEALS_FOR_RESTAURANT_QUERY, variables: { restaurantId } })
-        } catch (cacheReadError) {
-          mealsForRestaurant = undefined
-        }
-
-        if (mealsForRestaurant) {
-          cache.writeQuery<MealsForRestaurant, MealsForRestaurantVariables>({
-            query: MEALS_FOR_RESTAURANT_QUERY,
-            variables: { restaurantId },
-            data: {
-              meals: mealsForRestaurant.meals?.length
-                ? [...mealsForRestaurant.meals, data.createMeal.meal]
-                : [data.createMeal.meal],
-            },
-          })
-        }
+      if (data?.updateMeal?.meal) {
+        cache.writeFragment<MealInfo>({
+          fragment: MEAL_INFO_FRAGMENT,
+          fragmentName: 'MealInfo',
+          id: meal.id,
+          data: data.updateMeal.meal,
+        })
       }
-    },
-    onCompleted: () => {
-      message.success('Meal added successfully')
-      handleModalClose()
     },
     onError: (error) => {
       message.error(error.message)
+    },
+    onCompleted: () => {
+      message.success('Meal updated successfully')
+      handleModalClose()
     },
   })
 
   const handleSubmit = useCallback(
     ({ name, price, description, image }) => {
-      const { id: restaurantId } = restaurant
-      createMealMutation({
+      updateMealMutation({
         variables: {
           name,
           price: Number.parseFloat(price),
           description,
           image: image ? image[0]?.response?._id : undefined,
-          restaurantId,
+          mealId: meal.id,
         },
       })
     },
-    [createMealMutation, restaurant],
+    [meal.id, updateMealMutation],
   )
 
   return (
     <>
       {cloneElement(trigger, { onClick: handleModalOpen })}
       <Modal
-        title="Add Meal"
+        title="Update Meal"
         visible={modalOpened}
         onCancel={handleModalClose}
-        okButtonProps={{ loading }}
         onOk={() => {
           form.submit()
         }}
-        okText="Create Meal"
+        okButtonProps={{ loading }}
+        okText="Update Meal"
       >
         <Form
           className="space-y-6"
@@ -108,6 +86,14 @@ const CreateMeal: React.FC<Props> = ({ trigger, restaurant }) => {
           layout="vertical"
           colon={false}
           form={form}
+          initialValues={{
+            name: meal.name,
+            price: meal.price,
+            description: meal.description,
+            image: meal.image
+              ? [transformToUploaderObject(meal.image)]
+              : undefined,
+          }}
         >
           <Form.Item
             name="name"
@@ -156,4 +142,4 @@ const CreateMeal: React.FC<Props> = ({ trigger, restaurant }) => {
   )
 }
 
-export default CreateMeal
+export default UpdateMeal

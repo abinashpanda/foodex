@@ -9,7 +9,7 @@ import {
 } from 'types/OrdersForCustomer'
 import { ORDERS_FOR_CUSTOMER_QUERY } from 'queries/order'
 import { range } from 'lodash-es'
-import { Result } from 'antd'
+import { Result, Button } from 'antd'
 import { OrderInfo } from 'types/OrderInfo'
 import { Link } from 'react-router-dom'
 import CustomerOrderCard from './components/CustomerOrderCard'
@@ -51,19 +51,45 @@ const Orders = () => {
       return <Result status="warning" subTitle={error.message} />
     }
 
-    if (data && data.orders) {
-      return (
-        <div className="space-y-4">
-          {data.orders?.map((order) => (
-            <Link
-              to={`/orders-placed/${order?.id}`}
-              key={order?.id}
-              className="block"
-            >
-              <CustomerOrderCard order={order as OrderInfo} />
+    if (data) {
+      if (!data.orders?.length) {
+        return (
+          <div className="absolute inset-0 flex flex-col items-center justify-center max-w-screen-lg px-4 mx-auto">
+            <div className="max-w-lg mx-auto mb-8">
+              <img
+                src={require('../../images/empty-order.svg')}
+                className="w-full"
+                alt=""
+              />
+            </div>
+            <div className="text-xl font-semibold text-center text-gray-800">
+              Your have not ordered yet
+            </div>
+            <div className="mb-4 text-center text-gray-500">
+              You can go to home page to view more restaurants
+            </div>
+            <Link to="/">
+              <Button type="primary">See Restaurants Near You</Button>
             </Link>
-          ))}
-        </div>
+          </div>
+        )
+      }
+
+      return (
+        <>
+          <h1 className="mb-6 text-xl font-bold text-gray-600">Orders</h1>
+          <div className="space-y-4">
+            {data.orders?.map((order) => (
+              <Link
+                to={`/orders-placed/${order?.id}`}
+                key={order?.id}
+                className="block"
+              >
+                <CustomerOrderCard order={order as OrderInfo} />
+              </Link>
+            ))}
+          </div>
+        </>
       )
     }
 
@@ -73,10 +99,7 @@ const Orders = () => {
   return (
     <AppShell>
       <div className="px-4">
-        <div className="max-w-screen-md py-4 mx-auto">
-          <h1 className="mb-6 text-xl font-bold text-gray-600">Orders</h1>
-          {content}
-        </div>
+        <div className="max-w-screen-md py-4 mx-auto">{content}</div>
       </div>
     </AppShell>
   )

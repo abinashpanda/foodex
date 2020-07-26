@@ -9,7 +9,7 @@ import { getStatusName, statusColors } from 'utils/status'
 
 interface Props {
   order: OrderInfo
-  actions?: JSX.Element[]
+  actions?: JSX.Element
   className?: string
   style?: React.CSSProperties
 }
@@ -67,7 +67,7 @@ const OrderCard: React.FC<Props> = ({ order, actions, className, style }) => {
           </div>
         </div>
       </div>
-      {actions && actions.length > 0 ? (
+      {actions ? (
         <>
           <div className="border-b" />
           <div className="flex items-center space-x-4">{actions}</div>

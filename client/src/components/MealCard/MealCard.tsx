@@ -7,15 +7,23 @@ import { RestaurantInfo } from 'types/RestaurantInfo'
 import AddToCartButton from 'components/AddToCartButton'
 import AuthContext from 'contexts/AuthContext'
 import { User } from 'types/user'
+import MealMenu from './components/MealMenu'
 
 interface Props {
   meal: MealInfo
   restaurant?: RestaurantInfo
+  editable?: boolean
   className?: string
   style?: React.CSSProperties
 }
 
-const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
+const MealCard: React.FC<Props> = ({
+  meal,
+  restaurant,
+  editable,
+  className,
+  style,
+}) => {
   const { type: userType } = useContext(AuthContext).user as User
 
   return (
@@ -52,6 +60,9 @@ const MealCard: React.FC<Props> = ({ meal, restaurant, className, style }) => {
           </span>
           {userType === 'CUSTOMER' && restaurant ? (
             <AddToCartButton restaurant={restaurant} meal={meal} />
+          ) : null}
+          {userType === 'RESTAURANT_OWNER' && editable && restaurant ? (
+            <MealMenu meal={meal} restaurant={restaurant} />
           ) : null}
         </div>
       </div>

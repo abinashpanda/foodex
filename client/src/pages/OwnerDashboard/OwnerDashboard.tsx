@@ -16,6 +16,7 @@ import DashboardLink from './components/DashboardLink'
 import RestaurantOrders from './components/RestaurantOrders'
 import RestaurantOrderDetail from './components/RestaurantOrderDetail'
 import RouteSelect from './components/RouteSelect'
+import Meals from './components/Meals'
 
 const dashboardRoutes = [
   {
@@ -96,6 +97,14 @@ const OwnerDashboard = () => {
               exact
               protectedRoute
               component={RestaurantOrderDetail}
+            />
+            <Route
+              path="/owner-dashboard/meals"
+              exact
+              protectedRoute
+              render={(props) => (
+                <Meals {...props} restaurant={ownerRestaurant} />
+              )}
             />
           </div>
         </div>

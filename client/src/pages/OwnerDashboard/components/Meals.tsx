@@ -31,7 +31,7 @@ const Meals: React.FC<Props> = ({ restaurant }) => {
   const content = useMemo(() => {
     if (loading) {
       return (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {range(5).map((val) => (
             <CardLoader key={val} style={{ opacity: 1 - val / 5 }} />
           ))}
@@ -45,16 +45,21 @@ const Meals: React.FC<Props> = ({ restaurant }) => {
 
     if (data) {
       return (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {data.meals?.map((meal) => (
-            <MealCard meal={meal as MealInfo} />
+            <MealCard
+              meal={meal as MealInfo}
+              key={meal?.id}
+              editable
+              restaurant={restaurant}
+            />
           ))}
         </div>
       )
     }
 
     return null
-  }, [data, error, loading])
+  }, [data, error, loading, restaurant])
 
   return (
     <div>
@@ -66,6 +71,7 @@ const Meals: React.FC<Props> = ({ restaurant }) => {
               Add Meal
             </Button>
           }
+          restaurant={restaurant}
         />
       </div>
       {content}

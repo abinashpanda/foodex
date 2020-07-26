@@ -40,7 +40,7 @@ const CustomerOrderCard: React.FC<Props> = ({ order, className, style }) => {
   return (
     <OrderCard
       order={order}
-      actions={actionButton ? [actionButton] : undefined}
+      actions={actionButton}
       className={className}
       style={style}
     />

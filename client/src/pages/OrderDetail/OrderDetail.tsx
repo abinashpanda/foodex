@@ -77,7 +77,9 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
               restaurant={data.order.restaurant as RestaurantInfo}
               totalCost={data.order.price}
               orderItems={
-                data.order.orderItems as { meal: MealInfo; quantity: number }[]
+                data.order.orderItems?.filter(
+                  (orderItem) => !!orderItem?.meal,
+                ) as { meal: MealInfo; quantity: number }[]
               }
             />
           </div>
