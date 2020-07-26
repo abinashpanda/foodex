@@ -24,52 +24,66 @@ const OrderCard: React.FC<Props> = ({ order, className, style }) => {
     'desc',
   )
 
+  const showActionButton =
+    orderStatuses[0]?.status === 'DELIVERED' ||
+    orderStatuses[0]?.status === 'RECEIVED'
+
   return (
     <div
-      className={clsx(
-        'bg-white p-4 rounded-md shadow flex space-x-4 items-center',
-        className,
-      )}
+      className={clsx('bg-white p-4 rounded-md shadow space-y-4', className)}
       style={style}
     >
-      {restaurant ? (
+      <div className="flex items-center">
+        {restaurant ? (
+          <>
+            {restaurant.images?.[0]?.url ? (
+              <img
+                src={getImageUrl(restaurant.images[0].url)}
+                alt={restaurant.name}
+                className="object-cover w-20 h-20 mr-4 rounded-md md:block"
+              />
+            ) : null}
+            <div>
+              <div className="text-base font-medium text-gray-800">
+                {restaurant.name}
+              </div>
+              <div className="text-xs text-gray-500">{restaurant.location}</div>
+            </div>
+          </>
+        ) : null}
+        <div className="flex-1" />
+        <div className="space-y-2 text-right">
+          <div className="font-medium text-right text-gray-900">
+            ₹{order?.price ?? 0}
+          </div>
+          <div className="space-x-1 text-xs text-right text-gray-500">
+            <span className="font-medium text-green-500">
+              {getStatusName(orderStatuses[0].status)}
+            </span>
+            <span>|</span>
+            <span>
+              {moment(orderStatuses[0].createdAt).format('Do MMM YYYY')}
+            </span>
+          </div>
+        </div>
+      </div>
+      {showActionButton ? (
         <>
-          {restaurant.images?.[0]?.url ? (
-            <img
-              src={getImageUrl(restaurant.images[0].url)}
-              alt={restaurant.name}
-              className="object-cover w-20 h-20 rounded-md"
+          <div className="border-b" />
+          {orderStatuses[0].status === 'DELIVERED' ? (
+            <MarkReceivedButton
+              order={order}
+              className="h-8 leading-none"
+              type="default"
             />
           ) : null}
-          <div>
-            <div className="text-base font-medium text-gray-800">
-              {restaurant.name}
-            </div>
-            <div className="text-xs text-gray-500">{restaurant.location}</div>
-          </div>
-          <div className="flex-1" />
-          <div className="space-y-2 text-right">
-            <div className="font-medium text-right text-gray-900">
-              ₹{order?.price ?? 0}
-            </div>
-            <div className="space-x-1 text-xs text-right text-gray-500">
-              <span className="font-medium text-green-500">
-                {getStatusName(orderStatuses[0].status)}
-              </span>
-              <span>|</span>
-              <span>
-                {moment(orderStatuses[0].createdAt).format(
-                  'Do MMM YYYY, hh:mm a',
-                )}
-              </span>
-            </div>
-            {orderStatuses[0].status === 'DELIVERED' ? (
-              <MarkReceivedButton order={order} className="h-8 leading-none" />
-            ) : null}
-            {orderStatuses[0].status === 'RECEIVED' ? (
-              <ReorderButton order={order} className="h-8 leading-none" />
-            ) : null}
-          </div>
+          {orderStatuses[0].status === 'RECEIVED' ? (
+            <ReorderButton
+              order={order}
+              className="h-8 leading-none"
+              type="default"
+            />
+          ) : null}
         </>
       ) : null}
     </div>

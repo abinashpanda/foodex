@@ -62,7 +62,7 @@ export const PLACE_ORDER_MUTATION = gql`
 
 export const ORDERS_FOR_CUSTOMER_QUERY = gql`
   query OrdersForCustomer($customerId: String!) {
-    orders(where: { customer: { id: $customerId } }) {
+    orders(where: { customer: { id: $customerId } }, sort: "createdAt:desc") {
       ...OrderInfo
     }
   }

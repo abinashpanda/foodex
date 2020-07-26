@@ -66,7 +66,7 @@ const ConfirmOrder = () => {
             variables: { customerId: userId },
             data: {
               orders: ordersPlaced?.orders?.length
-                ? [...ordersPlaced.orders, data.placeOrder]
+                ? [data.placeOrder, ...ordersPlaced.orders]
                 : [data.placeOrder],
             },
           })
