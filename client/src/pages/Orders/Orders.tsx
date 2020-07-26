@@ -68,9 +68,11 @@ const Orders = () => {
 
   return (
     <AppShell>
-      <div className="max-w-screen-md py-4 mx-auto">
-        <h1 className="mb-6 text-xl font-bold text-gray-600">Orders</h1>
-        {content}
+      <div className="px-4">
+        <div className="max-w-screen-md py-4 mx-auto">
+          <h1 className="mb-6 text-xl font-bold text-gray-600">Orders</h1>
+          {content}
+        </div>
       </div>
     </AppShell>
   )
