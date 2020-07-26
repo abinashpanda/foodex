@@ -35,7 +35,7 @@ const OrderStatuses: React.FC<Props> = ({ order, className, style }) => {
             <LocationMarker className="w-5 h-5" />
             <div>Delivery Address</div>
           </div>
-          <div className="mb-4 font-medium text-gray-800">
+          <div className="mb-4 text-gray-800">
             {[
               deliveryAddress?.flat,
               deliveryAddress?.street,
