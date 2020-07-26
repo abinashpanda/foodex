@@ -3,17 +3,11 @@ import AppShell from 'components/AppShell'
 import { useQuery } from '@apollo/client'
 import { OrderVariables, Order } from 'types/Order'
 import { ORDER_QUERY } from 'queries/order'
-import { RouteComponentProps, Link } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { Result } from 'antd'
-import { range, orderBy } from 'lodash-es'
-import { OrderInfo } from 'types/OrderInfo'
-import { getImageUrl } from 'utils/image'
-import { StatusInfo } from 'types/StatusInfo'
-import moment from 'moment'
-import { Clock } from 'icons'
-import MarkReceivedButton from 'components/MarkReceivedButton'
-import ReorderButton from 'components/ReorderButton'
-import { getStatusName } from 'utils/status'
+import { range } from 'lodash-es'
+import OrderItems from './components/OrderItems'
+import OrderStatuses from './components/OrderStatuses'
 
 interface Props extends RouteComponentProps {}
 
@@ -31,8 +25,8 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
   const content = useMemo(() => {
     if (loading) {
       return (
-        <div className="grid items-start grid-cols-3 gap-4">
-          <div className="col-span-2 p-4 bg-white rounded-md shadow">
+        <div className="grid items-start max-w-screen-lg grid-cols-1 gap-4 py-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
+          <div className="col-span-1 p-4 bg-white rounded-md shadow lg:col-span-2">
             <div className="flex mb-4 space-x-4">
               <div className="w-16 h-16 rounded-md skeleton" />
               <div className="flex-1">
@@ -73,125 +67,14 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
       return <Result status="warning" subTitle={error.message} />
     }
 
-    if (data) {
-      const { restaurant, orderItems, statuses } = data.order as OrderInfo
-
-      const orderStatuses = orderBy(
-        statuses as StatusInfo[],
-        (status) => moment(status.createdAt).valueOf(),
-        'desc',
-      )
-
+    if (data && data.order) {
       return (
-        <div className="grid items-start grid-cols-3 gap-4">
-          <div className="col-span-2 p-4 bg-white rounded-md shadow">
-            {restaurant ? (
-              <Link
-                to={`/restaurants/${restaurant.id}`}
-                className="flex mb-4 space-x-4"
-              >
-                {restaurant.images?.[0]?.url ? (
-                  <img
-                    src={getImageUrl(restaurant.images[0].url)}
-                    alt={restaurant.name}
-                    className="object-cover w-16 h-16 rounded-md"
-                  />
-                ) : null}
-                <div>
-                  <div className="text-base font-medium text-gray-800">
-                    {restaurant.name}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {restaurant.cuisines.join(', ')}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {restaurant.location}
-                  </div>
-                </div>
-              </Link>
-            ) : null}
-            {orderItems?.length ? (
-              <>
-                <div className="mb-4 text-xs font-medium tracking-wider text-green-500 uppercase">
-                  Items Ordered
-                </div>
-                <div className="mb-4 space-y-4">
-                  {orderItems.map((orderItem) => (
-                    <div
-                      key={orderItem?.id}
-                      className="flex items-center space-x-4"
-                    >
-                      <div>
-                        <div className="text-sm font-medium text-gray-700">
-                          {orderItem?.meal?.name} x {orderItem?.quantity}
-                        </div>
-                        <div className="max-w-sm text-xs text-gray-400 truncate">
-                          {orderItem?.meal?.description}
-                        </div>
-                      </div>
-                      <div className="flex-1" />
-                      <div className="w-16 text-right">
-                        ₹
-                        {(orderItem?.meal?.price ?? 0) *
-                          (orderItem?.quantity ?? 0)}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : null}
-            <div className="mb-4 text-xs font-medium tracking-wider text-green-500 uppercase">
-              Bill Details
-            </div>
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-sm font-medium text-gray-700">
-                Items Total
-              </div>
-              <div className="w-16 text-right">₹{data.order?.price}</div>
-            </div>
-            <div className="flex items-center justify-between mb-4">
-              <div className="text-sm font-medium text-gray-700">
-                Delivery Charges
-              </div>
-              <div className="w-16 text-right">₹0</div>
-            </div>
-            <div className="mb-4 border-b" />
-            <div className="flex items-center justify-between">
-              <div className="text-base font-medium text-gray-900">To Pay</div>
-              <div className="w-16 font-medium text-right text-gray-900">
-                ₹{data.order?.price ?? 0}
-              </div>
-            </div>
+        <div className="grid items-start max-w-screen-lg grid-cols-1 gap-4 py-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
+          <div className="col-span-1 lg:col-span-2">
+            <OrderItems order={data.order} />
           </div>
-          <div className="col-span-1 p-4 bg-white rounded-md shadow">
-            <div className="flex items-center mb-4 space-x-2 font-medium text-green-500">
-              <Clock className="w-5 h-5" />
-              <div>Order Status</div>
-            </div>
-            <div className="space-y-4">
-              {orderStatuses.map((status) => (
-                <div key={status.id} className="p-3 rounded-md shadow">
-                  <div className="font-medium text-gray-800">
-                    {getStatusName(status.status)}
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {moment(status.createdAt).format('Do MMM, YYYY | hh:mm a')}
-                  </div>
-                </div>
-              ))}
-              {orderStatuses[0].status === 'DELIVERED' ? (
-                <MarkReceivedButton
-                  className="w-full"
-                  order={data.order as OrderInfo}
-                />
-              ) : null}
-              {orderStatuses[0].status === 'RECEIVED' ? (
-                <ReorderButton
-                  className="w-full"
-                  order={data.order as OrderInfo}
-                />
-              ) : null}
-            </div>
+          <div className="col-span-1">
+            <OrderStatuses order={data.order} />
           </div>
         </div>
       )
@@ -202,7 +85,9 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
 
   return (
     <AppShell>
-      <div className="max-w-screen-lg py-4 mx-auto">{content}</div>
+      <div className="px-4">
+        <div className="max-w-screen-lg py-4 mx-auto">{content}</div>
+      </div>
     </AppShell>
   )
 }
