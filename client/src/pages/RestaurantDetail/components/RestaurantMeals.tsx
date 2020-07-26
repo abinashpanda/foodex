@@ -75,7 +75,7 @@ const RestaurantMeals: React.FC<Props> = ({
   return (
     <div className={clsx('px-4', className)}>
       <div className="max-w-screen-lg mx-auto" style={style}>
-        <h1 className="mb-6 text-xl font-bold text-gray-600">Meals</h1>
+        <h1 className="mb-4 text-xl font-bold text-gray-600">Meals</h1>
         {content}
       </div>
     </div>

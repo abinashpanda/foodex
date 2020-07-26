@@ -13,6 +13,7 @@ import Cart from 'components/Cart'
 import Checkout from 'pages/Checkout'
 import Orders from 'pages/Orders'
 import OrderDetail from 'pages/OrderDetail'
+import Profile from 'pages/Profile'
 
 const App = () => {
   return (
@@ -24,7 +25,10 @@ const App = () => {
               path={['/login', '/signup', '/reset-password']}
               component={AuthScene}
             />
+
+            {/* Common Pages */}
             <Route path="/" exact protectedRoute component={Home} />
+            <Route path="/profile" component={Profile} exact protectedRoute />
 
             {/* Owner Routes */}
             <Route
@@ -52,9 +56,14 @@ const App = () => {
               component={RestaurantDetail}
             />
             <Route path="/checkout" protectedRoute component={Checkout} />
-            <Route path="/orders" protectedRoute component={Orders} exact />
             <Route
-              path="/orders/:orderId"
+              path="/orders-placed"
+              protectedRoute
+              component={Orders}
+              exact
+            />
+            <Route
+              path="/orders-placed/:orderId"
               protectedRoute
               component={OrderDetail}
               exact

@@ -5,10 +5,14 @@ import { UserCircle } from 'icons'
 import AuthContext from 'contexts/AuthContext'
 import { User } from 'types/user'
 import { Link } from 'react-router-dom'
+import clsx from 'clsx'
+import CartContext from 'contexts/CartContext'
 import CartBadge from './components/CartBadge'
 
 const AppShell: React.FC = ({ children }) => {
   const { user, signOut } = useContext(AuthContext)
+
+  const { totalItems } = useContext(CartContext)
 
   const { name: userName, type: userType } = user as User
 
@@ -33,7 +37,7 @@ const AppShell: React.FC = ({ children }) => {
                   <Link to="/profile">Profile</Link>
                 </Menu.Item>
                 <Menu.Item>
-                  <Link to="/orders">Orders</Link>
+                  <Link to="/orders-placed">Orders</Link>
                 </Menu.Item>
                 <Menu.Divider />
                 <Menu.Item onClick={signOut}>Logout</Menu.Item>
@@ -51,7 +55,14 @@ const AppShell: React.FC = ({ children }) => {
       </div>
       <div className="flex-1 bg-white">
         <Scrollbars style={{ height: '100%' }} autoHide universal>
-          <div className="mb-20">{children}</div>
+          <div
+            className={clsx(
+              'min-h-full relative',
+              totalItems > 0 ? 'pb-20' : undefined,
+            )}
+          >
+            {children}
+          </div>
         </Scrollbars>
       </div>
     </div>

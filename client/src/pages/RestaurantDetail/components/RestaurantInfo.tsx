@@ -53,7 +53,7 @@ const RestaurantInfo: React.FC<Props> = ({
       const { restaurant } = data
       return (
         <div className="flex items-center">
-          <div className="hidden w-64 h-40 mr-6 overflow-hidden rounded-md mb:block">
+          <div className="hidden w-64 h-40 mr-6 overflow-hidden rounded-md md:block">
             {restaurant.images?.[0]?.url ? (
               <img
                 src={getImageUrl(restaurant.images[0].url)}
@@ -90,7 +90,7 @@ const RestaurantInfo: React.FC<Props> = ({
 
   return (
     <div
-      className={clsx('px-6 md:px-4 py-4 md:py-8 bg-gray-900')}
+      className={clsx('px-6 md:px-4 py-4 md:py-8 bg-gray-900', className)}
       style={style}
     >
       <div className="max-w-screen-lg mx-auto">{content}</div>

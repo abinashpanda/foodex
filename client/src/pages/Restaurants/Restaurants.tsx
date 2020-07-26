@@ -59,7 +59,7 @@ const Restaurants = () => {
     <AppShell>
       <div className="px-4">
         <div className="max-w-screen-lg mx-auto my-4">
-          <h1 className="mb-6 text-xl font-bold text-gray-600">Top Picks</h1>
+          <h1 className="mb-4 text-xl font-bold text-gray-600">Top Picks</h1>
           {content}
         </div>
       </div>
