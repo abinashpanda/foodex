@@ -29,7 +29,7 @@ const RestaurantInfo: React.FC<Props> = ({
     if (loading) {
       return (
         <div className="flex items-center">
-          <div className="hidden w-64 h-40 mr-6 skeleton md:block" />
+          <div className="w-24 h-24 mr-6 md:w-64 md:h-40 skeleton" />
           <div className="flex-1">
             <div className="w-full h-4 mb-4 md:w-7/12 md:h-8 skeleton" />
             <div className="w-7/12 h-4 mb-4 md:w-4/12 skeleton" />
@@ -53,7 +53,7 @@ const RestaurantInfo: React.FC<Props> = ({
       const { restaurant } = data
       return (
         <div className="flex items-center">
-          <div className="hidden w-64 h-40 mr-6 overflow-hidden rounded-md md:block">
+          <div className="w-24 h-24 mr-6 overflow-hidden rounded-md md:w-64 md:h-40">
             {restaurant.images?.[0]?.url ? (
               <img
                 src={getImageUrl(restaurant.images[0].url)}
