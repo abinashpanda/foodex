@@ -22,7 +22,7 @@ const CartDetail = () => {
           <div className="text-sm font-semibold">
             ₹{totalCost} | {totalItems} {totalItems <= 1 ? 'Item' : 'Items'}
           </div>
-          <div className="text-xs text-green-100">
+          <div className="w-40 text-xs text-green-100 truncate md:w-80">
             From {restaurantSelected?.name}
           </div>
         </div>

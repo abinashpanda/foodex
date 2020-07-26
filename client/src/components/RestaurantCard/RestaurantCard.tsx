@@ -39,19 +39,21 @@ const RestaurantCard: React.FC<Props> = ({ restaurant, className, style }) => {
   return (
     <div
       className={clsx(
-        'w-full max-w-xs rounded-md overflow-hidden shadow bg-white group flex flex-col',
+        'w-full max-w-sm rounded-md overflow-hidden shadow bg-white group flex flex-row md:flex-col',
         className,
       )}
       style={style}
     >
-      <div className="relative w-full h-32 bg-gray-100">
-        {restaurantImages.length > 0 ? (
-          <img
-            src={getImageUrl(restaurantImages[activeImageIndex].url)}
-            alt=""
-            className="object-cover w-full h-full"
-          />
-        ) : null}
+      <div className="relative w-32 h-full bg-gray-100 md:w-full md:h-32">
+        <div className="absolute inset-0">
+          {restaurantImages.length > 0 ? (
+            <img
+              src={getImageUrl(restaurantImages[activeImageIndex].url)}
+              alt=""
+              className="object-cover w-full h-full"
+            />
+          ) : null}
+        </div>
         {restaurantImages.length > 1 ? (
           <>
             <button

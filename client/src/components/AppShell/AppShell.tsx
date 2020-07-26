@@ -14,7 +14,7 @@ const AppShell: React.FC = ({ children }) => {
 
   return (
     <div className="flex flex-col w-screen h-screen overflow-hidden">
-      <div className="relative z-10 h-16 bg-white shadow">
+      <div className="relative z-10 h-16 px-4 bg-white shadow">
         <div className="flex items-center h-full max-w-screen-lg mx-auto space-x-4">
           <Link to="/">
             <img
@@ -51,7 +51,7 @@ const AppShell: React.FC = ({ children }) => {
       </div>
       <div className="flex-1 bg-white">
         <Scrollbars style={{ height: '100%' }} autoHide universal>
-          <div className="h-full mb-20">{children}</div>
+          <div className="mb-20">{children}</div>
         </Scrollbars>
       </div>
     </div>

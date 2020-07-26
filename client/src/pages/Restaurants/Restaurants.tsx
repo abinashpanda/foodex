@@ -18,7 +18,7 @@ const Restaurants = () => {
   const content = useMemo(() => {
     if (loading) {
       return (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {range(6).map((val) => (
             <CardLoader key={val} style={{ opacity: 1 - val / 6 }} />
           ))}
@@ -32,7 +32,7 @@ const Restaurants = () => {
 
     if (data) {
       return (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {data.restaurants?.map((restaurant) => {
             const restaurantData = restaurant as RestaurantInfo
             return (
@@ -57,9 +57,11 @@ const Restaurants = () => {
 
   return (
     <AppShell>
-      <div className="max-w-screen-lg mx-auto my-4">
-        <h1 className="mb-6 text-xl font-bold text-gray-600">Top Picks</h1>
-        {content}
+      <div className="px-4">
+        <div className="max-w-screen-lg mx-auto my-4">
+          <h1 className="mb-6 text-xl font-bold text-gray-600">Top Picks</h1>
+          {content}
+        </div>
       </div>
     </AppShell>
   )
