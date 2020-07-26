@@ -38,13 +38,11 @@ const AppShell: React.FC = ({ children }) => {
             trigger={['click']}
             overlay={
               <Menu>
-                <Menu.Item>
-                  <Link to="/profile">Profile</Link>
-                </Menu.Item>
-                <Menu.Item>
-                  <Link to="/orders-placed">Orders</Link>
-                </Menu.Item>
-                <Menu.Divider />
+                {userType === 'CUSTOMER' ? (
+                  <Menu.Item>
+                    <Link to="/orders-placed">Orders</Link>
+                  </Menu.Item>
+                ) : null}
                 <Menu.Item onClick={handleSignOut}>Logout</Menu.Item>
               </Menu>
             }

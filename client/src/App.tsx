@@ -13,7 +13,6 @@ import Cart from 'components/Cart'
 import Checkout from 'pages/Checkout'
 import Orders from 'pages/Orders'
 import OrderDetail from 'pages/OrderDetail'
-import Profile from 'pages/Profile'
 
 const App = () => {
   return (
@@ -28,7 +27,6 @@ const App = () => {
 
             {/* Common Pages */}
             <Route path="/" exact protectedRoute component={Home} />
-            <Route path="/profile" component={Profile} exact protectedRoute />
 
             {/* Owner Routes */}
             <Route
