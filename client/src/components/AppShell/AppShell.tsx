@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { Dropdown, Menu } from 'antd'
 import { UserCircle } from 'icons'
@@ -12,9 +12,14 @@ import CartBadge from './components/CartBadge'
 const AppShell: React.FC = ({ children }) => {
   const { user, signOut } = useContext(AuthContext)
 
-  const { totalItems } = useContext(CartContext)
+  const { totalItems, resetCart } = useContext(CartContext)
 
   const { name: userName, type: userType } = user as User
+
+  const handleSignOut = useCallback(() => {
+    resetCart()
+    signOut()
+  }, [resetCart, signOut])
 
   return (
     <div className="flex flex-col w-screen h-screen overflow-hidden">
@@ -40,7 +45,7 @@ const AppShell: React.FC = ({ children }) => {
                   <Link to="/orders-placed">Orders</Link>
                 </Menu.Item>
                 <Menu.Divider />
-                <Menu.Item onClick={signOut}>Logout</Menu.Item>
+                <Menu.Item onClick={handleSignOut}>Logout</Menu.Item>
               </Menu>
             }
             placement="bottomCenter"

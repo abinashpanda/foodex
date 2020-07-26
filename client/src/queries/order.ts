@@ -50,7 +50,7 @@ export const PLACE_ORDER_MUTATION = gql`
           restaurant: $restaurantId
           price: $price
           meals: $meals
-          deliverAddress: $deliveryAddressId
+          deliveryAddress: $deliveryAddressId
         }
       }
     ) {
@@ -63,6 +63,18 @@ export const PLACE_ORDER_MUTATION = gql`
 export const ORDERS_FOR_CUSTOMER_QUERY = gql`
   query OrdersForCustomer($customerId: String!) {
     orders(where: { customer: { id: $customerId } }, sort: "createdAt:desc") {
+      ...OrderInfo
+    }
+  }
+  ${ORDER_INFO_FRAGMENT}
+`
+
+export const ORDERS_FOR_RESTAURANT_QUERY = gql`
+  query OrdersForRestaurant($restaurantId: String!) {
+    orders(
+      where: { restaurant: { id: $restaurantId } }
+      sort: "createdAt:desc"
+    ) {
       ...OrderInfo
     }
   }

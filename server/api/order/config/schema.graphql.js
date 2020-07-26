@@ -10,7 +10,7 @@ module.exports = {
       restaurant: ID!
       price: Float!
       meals: [OrderMealInput!]!
-      deliverAddress: ID!
+      deliveryAddress: ID!
     }
 
     input placeOrderInput {

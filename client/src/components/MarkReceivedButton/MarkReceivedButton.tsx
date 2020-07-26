@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react'
 import { OrderInfo } from 'types/OrderInfo'
 import { useMutation } from '@apollo/client'
-import {
-  MarkOrderReceived,
-  MarkOrderReceivedVariables,
-} from 'types/MarkOrderReceived'
-import { MARK_ORDER_RECEIVED_MUTATION } from 'queries/status'
+import { UPDATE_ORDER_STATUS_MUTATION } from 'queries/status'
 import { Button } from 'antd'
 import { ORDER_QUERY } from 'queries/order'
+import {
+  UpdateOrderStatus,
+  UpdateOrderStatusVariables,
+} from 'types/UpdateOrderStatus'
+import { ENUM_ORDERSTATUS_STATUS } from 'types/globalTypes'
 
 interface Props
   extends Omit<React.ComponentProps<typeof Button>, 'onClick' | 'loading'> {
@@ -16,10 +17,10 @@ interface Props
 
 const MarkReceivedButton: React.FC<Props> = ({ order, ...restProps }) => {
   const [markOrderReceivedMutation, { loading }] = useMutation<
-    MarkOrderReceived,
-    MarkOrderReceivedVariables
-  >(MARK_ORDER_RECEIVED_MUTATION, {
-    variables: { orderId: order.id },
+    UpdateOrderStatus,
+    UpdateOrderStatusVariables
+  >(UPDATE_ORDER_STATUS_MUTATION, {
+    variables: { orderId: order.id, status: ENUM_ORDERSTATUS_STATUS.RECEIVED },
     refetchQueries: () => [
       { query: ORDER_QUERY, variables: { orderId: order.id } },
     ],

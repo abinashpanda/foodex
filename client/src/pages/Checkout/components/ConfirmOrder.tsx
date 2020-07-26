@@ -76,7 +76,7 @@ const ConfirmOrder = () => {
     onCompleted: (placedOrderData) => {
       resetCart()
       message.success('Order placed successfully')
-      history.push(`/orders/${placedOrderData?.placeOrder?.id}`)
+      history.push(`/orders-placed/${placedOrderData?.placeOrder?.id}`)
     },
     onError: (error) => {
       message.error(error.message)

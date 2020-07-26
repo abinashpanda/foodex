@@ -3,11 +3,17 @@ import AppShell from 'components/AppShell'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import CartContext from 'contexts/CartContext'
-import CheckoutCart from './components/CheckoutCart'
+import ItemsOrdered from 'components/ItemsOrdered'
+import { RestaurantInfo } from 'types/RestaurantInfo'
 import ConfirmOrder from './components/ConfirmOrder'
 
 const Checkout = () => {
-  const { mealsAdded } = useContext(CartContext)
+  const {
+    mealsAdded,
+    mealsQuantity,
+    restaurantSelected,
+    totalCost,
+  } = useContext(CartContext)
 
   const content = useMemo(() => {
     if (mealsAdded.length === 0) {
@@ -37,7 +43,15 @@ const Checkout = () => {
       <div className="px-4">
         <div className="grid items-start max-w-screen-lg grid-cols-1 gap-4 py-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
           <div className="col-span-1 lg:col-span-2">
-            <CheckoutCart />
+            <ItemsOrdered
+              restaurant={restaurantSelected as RestaurantInfo}
+              orderItems={mealsAdded.map((meal) => ({
+                meal,
+                quantity: mealsQuantity[meal.id],
+              }))}
+              totalCost={totalCost}
+              editable
+            />
           </div>
           <div className="col-span-1">
             <ConfirmOrder />
@@ -45,7 +59,7 @@ const Checkout = () => {
         </div>
       </div>
     )
-  }, [mealsAdded.length])
+  }, [mealsAdded, mealsQuantity, restaurantSelected, totalCost])
 
   return <AppShell>{content}</AppShell>
 }

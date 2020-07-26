@@ -12,7 +12,7 @@ import { range } from 'lodash-es'
 import { Result } from 'antd'
 import { OrderInfo } from 'types/OrderInfo'
 import { Link } from 'react-router-dom'
-import OrderCard from './components/OrderCard'
+import CustomerOrderCard from './components/CustomerOrderCard'
 
 const Orders = () => {
   const { _id: userId } = useContext(AuthContext).user as User
@@ -55,8 +55,12 @@ const Orders = () => {
       return (
         <div className="space-y-4">
           {data.orders?.map((order) => (
-            <Link to={`/orders/${order?.id}`} key={order?.id} className="block">
-              <OrderCard order={order as OrderInfo} />
+            <Link
+              to={`/orders-placed/${order?.id}`}
+              key={order?.id}
+              className="block"
+            >
+              <CustomerOrderCard order={order as OrderInfo} />
             </Link>
           ))}
         </div>

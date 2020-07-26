@@ -6,7 +6,9 @@ import { ORDER_QUERY } from 'queries/order'
 import { RouteComponentProps } from 'react-router-dom'
 import { Result } from 'antd'
 import { range } from 'lodash-es'
-import OrderItems from './components/OrderItems'
+import ItemsOrdered from 'components/ItemsOrdered'
+import { RestaurantInfo } from 'types/RestaurantInfo'
+import { MealInfo } from 'types/MealInfo'
 import OrderStatuses from './components/OrderStatuses'
 
 interface Props extends RouteComponentProps {}
@@ -25,7 +27,7 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
   const content = useMemo(() => {
     if (loading) {
       return (
-        <div className="grid items-start max-w-screen-lg grid-cols-1 gap-4 py-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-start grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="col-span-1 p-4 bg-white rounded-md shadow lg:col-span-2">
             <div className="flex mb-4 space-x-4">
               <div className="w-16 h-16 rounded-md skeleton" />
@@ -69,9 +71,15 @@ const OrderDetail: React.FC<Props> = ({ match: { params } }) => {
 
     if (data && data.order) {
       return (
-        <div className="grid items-start max-w-screen-lg grid-cols-1 gap-4 py-4 mx-auto md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid items-start grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           <div className="col-span-1 lg:col-span-2">
-            <OrderItems order={data.order} />
+            <ItemsOrdered
+              restaurant={data.order.restaurant as RestaurantInfo}
+              totalCost={data.order.price}
+              orderItems={
+                data.order.orderItems as { meal: MealInfo; quantity: number }[]
+              }
+            />
           </div>
           <div className="col-span-1">
             <OrderStatuses order={data.order} />

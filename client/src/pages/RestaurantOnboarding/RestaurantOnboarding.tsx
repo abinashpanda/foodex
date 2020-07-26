@@ -69,8 +69,8 @@ const RestaurantOnboarding = () => {
 
   return (
     <AppShell>
-      <div className="flex items-center justify-center w-full h-full">
-        <div className="flex w-full max-w-xl bg-white rounded-lg shadow">
+      <div className="p-4">
+        <div className="flex w-full max-w-xl mx-auto bg-white rounded-lg shadow">
           <div className="flex-1 p-8 border-r border-gray-100">
             <div className="text-lg font-medium text-gray-800">
               Onboard your restaurant

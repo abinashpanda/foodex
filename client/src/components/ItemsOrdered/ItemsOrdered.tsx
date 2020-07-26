@@ -1,48 +1,54 @@
-import React, { useContext } from 'react'
-import CartContext from 'contexts/CartContext'
-import { getImageUrl } from 'utils/image'
-import { Link } from 'react-router-dom'
-import AddToCartButton from 'components/AddToCartButton'
+import React from 'react'
 import { RestaurantInfo } from 'types/RestaurantInfo'
+import { MealInfo } from 'types/MealInfo'
+import { Link } from 'react-router-dom'
+import { getImageUrl } from 'utils/image'
+import AddToCartButton from 'components/AddToCartButton'
+import clsx from 'clsx'
 
-const CheckoutCart = () => {
-  const {
-    restaurantSelected,
-    mealsAdded,
-    mealsQuantity,
-    totalCost,
-  } = useContext(CartContext)
+interface Props {
+  restaurant: RestaurantInfo
+  orderItems: { meal: MealInfo; quantity: number }[]
+  totalCost: number
+  editable?: boolean
+  className?: string
+  style?: React.CSSProperties
+}
 
+const ItemsOrdered: React.FC<Props> = ({
+  restaurant,
+  orderItems,
+  totalCost,
+  editable,
+  className,
+  style,
+}) => {
   return (
-    <div className="p-4 rounded-md shadow">
-      {restaurantSelected ? (
-        <Link
-          to={`/restaurants/${restaurantSelected.id}`}
-          className="flex mb-4 space-x-4"
-        >
-          {restaurantSelected.images?.[0]?.url ? (
-            <img
-              src={getImageUrl(restaurantSelected.images[0].url)}
-              alt={restaurantSelected.name}
-              className="object-cover w-16 h-16 rounded-md"
-            />
-          ) : null}
-          <div>
-            <div className="text-base font-medium text-gray-800">
-              {restaurantSelected.name}
-            </div>
-            <div className="text-xs text-gray-500">
-              {restaurantSelected.location}
-            </div>
+    <div className={clsx('p-4 rounded-md shadow', className)} style={style}>
+      <Link
+        to={`/restaurants/${restaurant.id}`}
+        className="flex mb-4 space-x-4"
+      >
+        {restaurant.images?.[0]?.url ? (
+          <img
+            src={getImageUrl(restaurant.images[0].url)}
+            alt={restaurant.name}
+            className="object-cover w-16 h-16 rounded-md"
+          />
+        ) : null}
+        <div>
+          <div className="text-base font-medium text-gray-800">
+            {restaurant.name}
           </div>
-        </Link>
-      ) : null}
+          <div className="text-xs text-gray-500">{restaurant.location}</div>
+        </div>
+      </Link>
       <div className="mb-4 text-xs font-medium tracking-wider text-green-500 uppercase">
         Items Ordered
       </div>
       <div className="mb-4 space-y-4">
         {/* meals details */}
-        {mealsAdded.map((meal) => (
+        {orderItems.map(({ meal, quantity }) => (
           <div key={meal.id} className="flex items-center space-x-4">
             <div>
               <div className="text-sm font-medium text-gray-700">
@@ -53,13 +59,10 @@ const CheckoutCart = () => {
               </div>
             </div>
             <div className="flex-1" />
-            <AddToCartButton
-              meal={meal}
-              restaurant={restaurantSelected as RestaurantInfo}
-            />
-            <div className="w-16 text-right">
-              ₹{meal.price * mealsQuantity[meal.id]}
-            </div>
+            {editable ? (
+              <AddToCartButton meal={meal} restaurant={restaurant} />
+            ) : null}
+            <div className="w-16 text-right">₹{meal.price * quantity}</div>
           </div>
         ))}
 
@@ -88,4 +91,4 @@ const CheckoutCart = () => {
   )
 }
 
-export default CheckoutCart
+export default ItemsOrdered

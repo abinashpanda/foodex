@@ -5,17 +5,16 @@ import { orderBy } from 'lodash-es'
 import { StatusInfo } from 'types/StatusInfo'
 import moment from 'moment'
 import { getImageUrl } from 'utils/image'
-import MarkReceivedButton from 'components/MarkReceivedButton'
-import ReorderButton from 'components/ReorderButton'
-import { getStatusName } from 'utils/status'
+import { getStatusName, statusColors } from 'utils/status'
 
 interface Props {
   order: OrderInfo
+  actions?: JSX.Element[]
   className?: string
   style?: React.CSSProperties
 }
 
-const OrderCard: React.FC<Props> = ({ order, className, style }) => {
+const OrderCard: React.FC<Props> = ({ order, actions, className, style }) => {
   const { restaurant, statuses } = order
 
   const orderStatuses = orderBy(
@@ -23,10 +22,6 @@ const OrderCard: React.FC<Props> = ({ order, className, style }) => {
     (status) => moment(status.createdAt).valueOf(),
     'desc',
   )
-
-  const showActionButton =
-    orderStatuses[0]?.status === 'DELIVERED' ||
-    orderStatuses[0]?.status === 'RECEIVED'
 
   return (
     <div
@@ -57,7 +52,12 @@ const OrderCard: React.FC<Props> = ({ order, className, style }) => {
             ₹{order?.price ?? 0}
           </div>
           <div className="space-x-1 text-xs text-right text-gray-500">
-            <span className="font-medium text-green-500">
+            <span
+              className={clsx(
+                'font-medium',
+                `text-${statusColors[orderStatuses[0].status]}`,
+              )}
+            >
               {getStatusName(orderStatuses[0].status)}
             </span>
             <span>|</span>
@@ -67,23 +67,10 @@ const OrderCard: React.FC<Props> = ({ order, className, style }) => {
           </div>
         </div>
       </div>
-      {showActionButton ? (
+      {actions && actions.length > 0 ? (
         <>
           <div className="border-b" />
-          {orderStatuses[0].status === 'DELIVERED' ? (
-            <MarkReceivedButton
-              order={order}
-              className="h-8 leading-none"
-              type="default"
-            />
-          ) : null}
-          {orderStatuses[0].status === 'RECEIVED' ? (
-            <ReorderButton
-              order={order}
-              className="h-8 leading-none"
-              type="default"
-            />
-          ) : null}
+          <div className="flex items-center space-x-4">{actions}</div>
         </>
       ) : null}
     </div>

@@ -8,9 +8,9 @@ export const STATUS_INFO_FRAGMENT = gql`
   }
 `
 
-export const MARK_ORDER_RECEIVED_MUTATION = gql`
-  mutation MarkOrderReceived($orderId: ID!) {
-    createOrderStatus(input: { data: { order: $orderId, status: RECEIVED } }) {
+export const UPDATE_ORDER_STATUS_MUTATION = gql`
+  mutation UpdateOrderStatus($orderId: ID!, $status: ENUM_ORDERSTATUS_STATUS!) {
+    createOrderStatus(input: { data: { order: $orderId, status: $status } }) {
       orderStatus {
         ...StatusInfo
       }

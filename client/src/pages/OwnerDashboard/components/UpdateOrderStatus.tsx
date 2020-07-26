@@ -1,13 +1,13 @@
 import React from 'react'
 import { OrderInfo } from 'types/OrderInfo'
 import clsx from 'clsx'
+import { LocationMarker, Clock } from 'icons'
 import { orderBy } from 'lodash-es'
 import { StatusInfo } from 'types/StatusInfo'
 import moment from 'moment'
-import { Clock, LocationMarker } from 'icons'
-import MarkReceivedButton from 'components/MarkReceivedButton'
-import ReorderButton from 'components/ReorderButton'
 import StatusCard from 'components/StatusCard'
+import CancelOrderButton from './CancelOrderButton'
+import UpdateOrderStatusButton from './UpdateOrderStatusButton'
 
 interface Props {
   order: OrderInfo
@@ -15,8 +15,8 @@ interface Props {
   style?: React.CSSProperties
 }
 
-const OrderStatuses: React.FC<Props> = ({ order, className, style }) => {
-  const { statuses, deliveryAddress } = order
+const UpdteOrderStatus: React.FC<Props> = ({ order, className, style }) => {
+  const { deliveryAddress, statuses } = order
 
   const orderStatuses = orderBy(
     statuses as StatusInfo[],
@@ -24,11 +24,12 @@ const OrderStatuses: React.FC<Props> = ({ order, className, style }) => {
     'desc',
   )
 
+  // restaurant owner can only cancel order before processing it
+  // once the order has been processed, it can't be cancelled anymore
+  const canCancelOrder = orderStatuses[0].status === 'PLACED'
+
   return (
-    <div
-      className={clsx('p-4 bg-white rounded-md shadow', className)}
-      style={style}
-    >
+    <div className={clsx('p-4 rounded-md shadow', className)} style={style}>
       {deliveryAddress ? (
         <>
           <div className="flex items-center mb-4 space-x-2 font-medium text-green-500">
@@ -51,17 +52,17 @@ const OrderStatuses: React.FC<Props> = ({ order, className, style }) => {
       </div>
       <div className="space-y-4">
         {orderStatuses.map((status) => (
-          <StatusCard status={status} key={status.id} />
+          <StatusCard key={status.id} status={status} />
         ))}
-        {orderStatuses[0].status === 'DELIVERED' ? (
-          <MarkReceivedButton className="w-full" order={order} />
-        ) : null}
-        {orderStatuses[0].status === 'RECEIVED' ? (
-          <ReorderButton className="w-full" order={order} />
+
+        <UpdateOrderStatusButton order={order} className="w-full" />
+
+        {canCancelOrder ? (
+          <CancelOrderButton orderId={order.id} className="w-full" />
         ) : null}
       </div>
     </div>
   )
 }
 
-export default OrderStatuses
+export default UpdteOrderStatus

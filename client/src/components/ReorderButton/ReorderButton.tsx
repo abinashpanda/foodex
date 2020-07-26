@@ -32,7 +32,7 @@ const ReorderButton: React.FC<Props> = ({ order, ...restProps }) => {
   }, [history, order, setCart])
 
   return (
-    <Button type="primary" {...restProps} onClick={handleClick}>
+    <Button {...restProps} onClick={handleClick}>
       Reorder Items
     </Button>
   )

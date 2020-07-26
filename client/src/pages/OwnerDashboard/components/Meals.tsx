@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button } from 'antd'
+import React, { useMemo } from 'react'
+import { Button, Result } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useQuery } from '@apollo/client'
 import {
@@ -8,6 +8,10 @@ import {
 } from 'types/MealsForRestaurant'
 import { RestaurantInfo } from 'types/RestaurantInfo'
 import { MEALS_FOR_RESTAURANT_QUERY } from 'queries/meal'
+import { range } from 'lodash-es'
+import CardLoader from 'components/CardLoader'
+import MealCard from 'components/MealCard'
+import { MealInfo } from 'types/MealInfo'
 import CreateMeal from './CreateMeal'
 
 interface Props {
@@ -15,19 +19,47 @@ interface Props {
 }
 
 const Meals: React.FC<Props> = ({ restaurant }) => {
-  const { loading } = useQuery<MealsForRestaurant, MealsForRestaurantVariables>(
-    MEALS_FOR_RESTAURANT_QUERY,
-    {
-      variables: {
-        restaurantId: restaurant.id,
-      },
+  const { loading, error, data } = useQuery<
+    MealsForRestaurant,
+    MealsForRestaurantVariables
+  >(MEALS_FOR_RESTAURANT_QUERY, {
+    variables: {
+      restaurantId: restaurant.id,
     },
-  )
+  })
+
+  const content = useMemo(() => {
+    if (loading) {
+      return (
+        <div className="grid grid-cols-3 gap-4">
+          {range(5).map((val) => (
+            <CardLoader key={val} style={{ opacity: 1 - val / 5 }} />
+          ))}
+        </div>
+      )
+    }
+
+    if (error) {
+      return <Result status="warning" subTitle={error.message} />
+    }
+
+    if (data) {
+      return (
+        <div className="grid grid-cols-3 gap-4">
+          {data.meals?.map((meal) => (
+            <MealCard meal={meal as MealInfo} />
+          ))}
+        </div>
+      )
+    }
+
+    return null
+  }, [data, error, loading])
 
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <div className="text-2xl font-bold text-gray-700">Meals</div>
+        <h1 className="text-xl font-bold text-gray-600">Meals</h1>
         <CreateMeal
           trigger={
             <Button type="primary" icon={<PlusOutlined />}>
@@ -36,8 +68,7 @@ const Meals: React.FC<Props> = ({ restaurant }) => {
           }
         />
       </div>
-      {loading ? <div className="w-full h-4 skeleton" /> : null}
-      <div className="grid grid-cols-4 gap-4" />
+      {content}
     </div>
   )
 }
