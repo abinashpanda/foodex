@@ -27,7 +27,7 @@ const AppShell: React.FC = ({ children }) => {
         <div className="flex items-center h-full max-w-screen-lg mx-auto space-x-4">
           <Link to="/">
             <img
-              src={require('../../images/logo.png')}
+              src={require('images/logo.png')}
               alt="FoodEx"
               className="w-10 h-10"
             />

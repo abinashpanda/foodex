@@ -57,7 +57,7 @@ const Orders = () => {
           <div className="absolute inset-0 flex flex-col items-center justify-center max-w-screen-lg px-4 mx-auto">
             <div className="max-w-lg mx-auto mb-8">
               <img
-                src={require('../../images/empty-order.svg')}
+                src={require('images/empty-order.svg')}
                 className="w-full"
                 alt=""
               />

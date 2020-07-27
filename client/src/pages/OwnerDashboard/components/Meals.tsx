@@ -44,6 +44,24 @@ const Meals: React.FC<Props> = ({ restaurant }) => {
     }
 
     if (data) {
+      if (!data.meals?.length) {
+        return (
+          <div className="flex flex-col items-center justify-center">
+            <img
+              src={require('images/meals.svg')}
+              alt=""
+              className="h-56 mb-4"
+            />
+            <div className="text-xl font-semibold text-center text-gray-800">
+              Your have not added any meals yet
+            </div>
+            <div className="mb-4 text-center text-gray-500">
+              Add meals to attract customers
+            </div>
+          </div>
+        )
+      }
+
       return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {data.meals?.map((meal) => (

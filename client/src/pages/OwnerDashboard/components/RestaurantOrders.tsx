@@ -71,7 +71,7 @@ const RestaurantOrders: React.FC<Props> = ({ restaurant }) => {
         <div className="px-4 py-16">
           <div className="max-w-lg mx-auto mb-8">
             <img
-              src={require('../../../images/empty-order.svg')}
+              src={require('images/empty-order.svg')}
               className="w-full"
               alt=""
             />
