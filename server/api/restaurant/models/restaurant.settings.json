@@ -33,21 +33,25 @@
       "required": true
     },
     "owner": {
-      "via": "restaurant",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "restaurant"
     },
     "meals": {
       "collection": "meal",
       "via": "restaurant"
     },
     "orders": {
-      "via": "restaurant",
-      "collection": "order"
+      "collection": "order",
+      "via": "restaurant"
     },
     "slug": {
       "type": "string",
       "required": false
+    },
+    "blockedUsers": {
+      "via": "restaurant",
+      "collection": "blocked-user"
     }
   }
 }

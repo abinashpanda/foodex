@@ -54,8 +54,8 @@
       "configurable": false
     },
     "restaurant": {
-      "model": "restaurant",
-      "via": "owner"
+      "via": "owner",
+      "model": "restaurant"
     },
     "type": {
       "type": "enumeration",
@@ -75,6 +75,10 @@
     "orders": {
       "via": "customer",
       "collection": "order"
+    },
+    "blockedRestaurants": {
+      "via": "user",
+      "collection": "blocked-user"
     }
   }
 }

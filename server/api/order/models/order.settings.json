@@ -15,8 +15,8 @@
       "via": "orders"
     },
     "restaurant": {
-      "model": "restaurant",
-      "via": "orders"
+      "via": "orders",
+      "model": "restaurant"
     },
     "price": {
       "type": "decimal",

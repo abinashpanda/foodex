@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import AppShell from 'components/AppShell'
-import { Cuisine, ShoppingCart, Building } from 'icons'
+import { Cuisine, ShoppingCart, Building, UserCircle } from 'icons'
 import Route from 'components/Route'
 import { Redirect } from 'react-router-dom'
 import AuthContext from 'contexts/AuthContext'
@@ -18,6 +18,7 @@ import RestaurantOrderDetail from './components/RestaurantOrderDetail'
 import RouteSelect from './components/RouteSelect'
 import Meals from './components/Meals'
 import UpdateRestaurant from './components/UpdateRestaurant'
+import Customers from './components/Customers'
 
 const dashboardRoutes = [
   {
@@ -35,6 +36,11 @@ const dashboardRoutes = [
     label: 'Restaurant',
     to: '/owner-dashboard/restaurant',
     icon: Building,
+  },
+  {
+    label: 'Customers',
+    to: '/owner-dashboard/customers',
+    icon: UserCircle,
   },
 ]
 
@@ -63,8 +69,14 @@ const OwnerDashboard = () => {
       return <Result status="warning" subTitle={error.message} />
     }
 
-    if (data && data.restaurants?.[0]) {
-      const ownerRestaurant = data.restaurants[0]
+    if (data) {
+      const ownerRestaurant = data.restaurants?.[0]
+
+      // If the user had not created their restaurant, redirect to
+      // restaurant-onboaring page
+      if (!ownerRestaurant) {
+        return <Redirect to={{ pathname: '/restaurant-onboarding' }} />
+      }
 
       return (
         <div className="grid items-start grid-cols-5 gap-6">
@@ -113,6 +125,14 @@ const OwnerDashboard = () => {
               protectedRoute
               render={(props) => (
                 <UpdateRestaurant restaurant={ownerRestaurant} {...props} />
+              )}
+            />
+            <Route
+              path="/owner-dashboard/customers"
+              exact
+              protectedRoute
+              render={(props) => (
+                <Customers restaurant={ownerRestaurant} {...props} />
               )}
             />
           </div>

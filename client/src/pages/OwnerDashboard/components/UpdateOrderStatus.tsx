@@ -1,7 +1,7 @@
 import React from 'react'
 import { OrderInfo } from 'types/OrderInfo'
 import clsx from 'clsx'
-import { LocationMarker, Clock } from 'icons'
+import { LocationMarker, Clock, UserCircle } from 'icons'
 import { orderBy } from 'lodash-es'
 import { StatusInfo } from 'types/StatusInfo'
 import moment from 'moment'
@@ -16,7 +16,7 @@ interface Props {
 }
 
 const UpdteOrderStatus: React.FC<Props> = ({ order, className, style }) => {
-  const { deliveryAddress, statuses } = order
+  const { deliveryAddress, statuses, customer } = order
 
   const orderStatuses = orderBy(
     statuses as StatusInfo[],
@@ -43,6 +43,18 @@ const UpdteOrderStatus: React.FC<Props> = ({ order, className, style }) => {
               deliveryAddress?.landmark,
             ].join(', ')}
           </div>
+          <div className="mb-4 -mx-4 border-b border-gray-200" />
+        </>
+      ) : null}
+
+      {customer ? (
+        <>
+          <div className="flex items-center mb-4 space-x-2 font-medium text-green-500">
+            <UserCircle className="w-5 h-5" />
+            <div>Customer</div>
+          </div>
+          <div className="mb-4 text-gray-800">{customer.name}</div>
+          <div className="mb-4 -mx-4 border-b border-gray-200" />
         </>
       ) : null}
 

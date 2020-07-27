@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/blocked-users",
+      "handler": "blocked-user.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/blocked-users/count",
+      "handler": "blocked-user.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/blocked-users/:id",
+      "handler": "blocked-user.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/blocked-users",
+      "handler": "blocked-user.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/blocked-users/:id",
+      "handler": "blocked-user.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/blocked-users/:id",
+      "handler": "blocked-user.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "blocked_users",
+  "info": {
+    "name": "BlockedUser"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "restaurant": {
+      "model": "restaurant",
+      "via": "blockedUsers"
+    },
+    "user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "blockedRestaurants"
+    }
+  }
+}
