@@ -11,6 +11,20 @@ module.exports = {
   async customCreate(ctx) {
     const { meals, ...orderData } = ctx.request.body;
 
+    if (ctx.state.user) {
+      const blockedRestaurants = await strapi.services['blocked-user'].find({
+        user: { _id: ctx.state.user._id },
+      });
+      if (blockedRestaurants.length > 0) {
+        const blockedRestaurantIds = blockedRestaurants.map((restaurant) =>
+          restaurant.restaurant._id.toString(),
+        );
+        if (blockedRestaurantIds.includes(orderData.restaurant)) {
+          return ctx.unauthorized('You have been blocked by this restaurant');
+        }
+      }
+    }
+
     let orderItems;
     if (meals && meals.length > 0) {
       const orderItemsCreated = await Promise.all(
