@@ -1,4 +1,4 @@
-![foodex logo](./client/src/images/logo.png)
+![foodex logo](/client/src/images/logo.png)
 
 # foodex
 
