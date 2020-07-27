@@ -1,3 +1,5 @@
+![foodex logo](./client/src/images/logo.png)
+
 # foodex
 
 Codebase for **foodex** - a food delivery application.
