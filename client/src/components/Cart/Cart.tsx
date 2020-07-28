@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import CartContext from 'contexts/CartContext'
 import { RestaurantInfo } from 'types/RestaurantInfo'
 import { MealInfo } from 'types/MealInfo'
@@ -35,18 +35,6 @@ const Cart: React.FC = ({ children }) => {
     () => Object.values(mealsQuantity).reduce((acc, val) => acc + val, 0),
     [mealsQuantity],
   )
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      'cart-restaurant',
-      restaurantSelected ? JSON.stringify(restaurantSelected) : '',
-    )
-    window.localStorage.setItem('cart-meals-added', JSON.stringify(mealsAdded))
-    window.localStorage.setItem(
-      'cart-meals-quantity',
-      JSON.stringify(mealsQuantity),
-    )
-  }, [mealsAdded, mealsQuantity, restaurantSelected])
 
   const addMeal = useCallback(
     (meal: MealInfo, restaurant: RestaurantInfo) => {
