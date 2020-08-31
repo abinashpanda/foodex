@@ -1,4 +1,4 @@
-![foodex logo](/client/src/images/logo.png)
+<img src="/client/src/images/logo.png" alt="foodex logo" width="80px" />
 
 # foodex
 
